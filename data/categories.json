@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "ai-male-portraits",
+    "name": "AI Male Portraits",
+    "short": "Character-driven portraits of men, from rooftop golden hours to cinematic close-ups.",
+    "intro": [
+      "Portraits of men reward restraint. The strongest AI results come from a clear light source, a believable wardrobe and one specific mood rather than a long list of adjectives. The prompts in this category are written around those three decisions.",
+      "Each entry explains why the light behaves the way it does, so you can change the time of day, the lens or the clothing without losing the look. Use them for profile pictures, creator branding or character references."
+    ],
+    "palette": ["#2B3A42", "#C98B4B", "#F1E3CF"],
+    "related": ["cinematic-portraits", "professional-headshots", "fashion-photography", "ai-female-portraits"],
+    "keywords": ["AI male portrait prompts", "AI photo prompts for men", "portrait prompt ideas"]
+  },
+  {
+    "slug": "ai-female-portraits",
+    "name": "AI Female Portraits",
+    "short": "Soft window light, film-inspired colour and natural outdoor portraits of women.",
+    "intro": [
+      "Good portrait prompts describe light and skin texture honestly: where the window is, how hard the shadows fall, whether the skin should look retouched or natural. The prompts here favour natural rendering over glossy filters.",
+      "Browse soft studio-at-home looks, nostalgic film colour and relaxed outdoor frames. Every prompt lists what to change for a different mood, so one idea can become several finished images."
+    ],
+    "palette": ["#7A4B52", "#E9B8A6", "#FBEFE6"],
+    "related": ["ai-couple-photography", "fashion-photography", "cinematic-portraits", "ai-male-portraits"],
+    "keywords": ["AI female portrait prompts", "AI portrait prompts for women", "natural portrait prompts"]
+  },
+  {
+    "slug": "ai-couple-photography",
+    "name": "AI Couple Photography",
+    "short": "Romantic and candid prompts for two people sharing one frame.",
+    "intro": [
+      "Couple images fail when the two people look like separate portraits pasted together. The prompts in this category describe how the pair interact, where their eyes go and how they share the light, which is what makes a frame feel like one moment.",
+      "Use them for anniversary posts, save-the-date concepts, greeting cards or storytelling visuals. Prompts avoid naming real people and focus on pose, distance and atmosphere."
+    ],
+    "palette": ["#5B3A4A", "#F2A07B", "#FFE9D6"],
+    "related": ["ai-female-portraits", "festival-and-seasonal-images", "cinematic-portraits", "nature-and-landscapes"],
+    "keywords": ["AI couple photo prompts", "romantic AI image prompts", "couple portrait prompts"]
+  },
+  {
+    "slug": "professional-headshots",
+    "name": "Professional Headshots",
+    "short": "Clean, credible headshot prompts for LinkedIn, company pages and personal brands.",
+    "intro": [
+      "A professional headshot has a job: it should make a stranger trust you in under a second. That means even lighting, a neutral but not lifeless background and a relaxed expression. The prompts here are tuned for that outcome.",
+      "Pick a studio, corporate or environmental look, then adjust wardrobe and background to your industry. Remember that AI headshots are illustrations of a style; always check platform rules before using generated faces as an identity photo."
+    ],
+    "palette": ["#33414D", "#9DB4C0", "#EEF2F4"],
+    "related": ["ai-male-portraits", "ai-female-portraits", "fashion-photography", "cinematic-portraits"],
+    "keywords": ["AI headshot prompts", "professional headshot prompt", "LinkedIn photo prompts"]
+  },
+  {
+    "slug": "fashion-photography",
+    "name": "Fashion Photography",
+    "short": "Streetwear, monochrome editorial and runway-inspired fashion prompts.",
+    "intro": [
+      "Fashion imagery is built on silhouette, fabric and attitude. Strong prompts name the garment shapes and materials, then give the camera a clear stance: low and heroic, flat and graphic, or distant and observational.",
+      "These prompts cover street-level looks and controlled studio editorial. Swap the garments and palette to match your own collection or mood board, and keep brand names out of your prompts for cleaner results."
+    ],
+    "palette": ["#1D1D1F", "#FF5A4E", "#EDEAE4"],
+    "related": ["ai-female-portraits", "ai-male-portraits", "cinematic-portraits", "product-photography"],
+    "keywords": ["AI fashion photography prompts", "streetwear AI prompt", "editorial fashion prompts"]
+  },
+  {
+    "slug": "cinematic-portraits",
+    "name": "Cinematic Portraits",
+    "short": "Film-still style portraits with deliberate colour, mood and depth of field.",
+    "intro": [
+      "Cinematic does not mean dark. It means the frame feels like it belongs to a story: motivated light, colour contrast between shadows and highlights, and a sense of space around the subject. These prompts are written like a director's note to the cinematographer.",
+      "Explore rainy streets, night colour contrast and vintage screen looks. Each prompt explains which element carries the mood so you can turn it up or down."
+    ],
+    "palette": ["#0F2A33", "#E0914A", "#D9E4E0"],
+    "related": ["ai-male-portraits", "ai-female-portraits", "fashion-photography", "ai-couple-photography"],
+    "keywords": ["cinematic AI portrait prompts", "film still AI prompt", "moody portrait prompt"]
+  },
+  {
+    "slug": "anime-and-illustration",
+    "name": "Anime and Illustration",
+    "short": "Hand-drawn feeling illustrations, from anime-inspired scenes to watercolour storybooks.",
+    "intro": [
+      "Illustration prompts work best when they name the medium (cel shading, watercolour, ink) and the scene's emotional centre. The prompts in this category avoid naming existing characters or studios and describe original scenes instead.",
+      "Use them for book covers, wallpapers, social posts or concept art. Each entry suggests how to change linework, palette and framing to move the same idea toward a different illustration style."
+    ],
+    "palette": ["#3C4F8A", "#F5B0C5", "#FFF4D6"],
+    "related": ["nature-and-landscapes", "festival-and-seasonal-images", "cinematic-portraits", "ai-couple-photography"],
+    "keywords": ["anime AI prompts", "illustration prompt ideas", "watercolor AI prompt"]
+  },
+  {
+    "slug": "product-photography",
+    "name": "Product Photography",
+    "short": "Luxury, minimalist and lifestyle product shots for listings and campaigns.",
+    "intro": [
+      "Product photography is about control: clean surfaces, predictable reflections and a background that never competes with the object. The prompts here describe the set, the surface and the lighting direction the way a studio photographer would brief an assistant.",
+      "Use them to explore advertising concepts, marketplace listing styles or social campaigns. Generated product images are concepts; for real products, always present the genuine item accurately."
+    ],
+    "palette": ["#2A2622", "#C9A66B", "#F4EEE4"],
+    "related": ["fashion-photography", "nature-and-landscapes", "festival-and-seasonal-images", "professional-headshots"],
+    "keywords": ["AI product photography prompts", "product ad prompt", "minimalist product photo prompt"]
+  },
+  {
+    "slug": "nature-and-landscapes",
+    "name": "Nature and Landscapes",
+    "short": "Dramatic landscapes and travel scenes with real atmosphere and scale.",
+    "intro": [
+      "Landscape images feel convincing when they have layers: a foreground anchor, a middle ground with texture and a distant plane softened by atmosphere. The prompts here are structured around those layers and around the weather that shapes them.",
+      "Browse mountain, valley and village scenes, then change season, time of day or lens length. Entries explain how each change shifts scale and mood."
+    ],
+    "palette": ["#27483F", "#9CC3A7", "#F6E7C8"],
+    "related": ["anime-and-illustration", "ai-couple-photography", "festival-and-seasonal-images", "cinematic-portraits"],
+    "keywords": ["AI landscape prompts", "travel photography prompt", "nature AI image prompts"]
+  },
+  {
+    "slug": "festival-and-seasonal-images",
+    "name": "Festival and Seasonal Images",
+    "short": "Festival lights, winter warmth and seasonal scenes for greetings and posts.",
+    "intro": [
+      "Seasonal images work when they feel warm and specific rather than generic. The prompts here describe the light sources, textures and small details (lamps, knitwear, steam from a cup) that make a festival scene believable.",
+      "Use them for greeting cards, social posts and invitations. Prompts describe original scenes and respectful, general cultural detail; adapt them to your own traditions and community."
+    ],
+    "palette": ["#5A2A1E", "#F2B134", "#FFF1CF"],
+    "related": ["ai-couple-photography", "anime-and-illustration", "nature-and-landscapes", "product-photography"],
+    "keywords": ["festival AI image prompts", "Diwali image prompt", "winter holiday AI prompt"]
+  }
+]

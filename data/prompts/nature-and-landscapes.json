@@ -1,0 +1,60 @@
+[
+  {
+    "id": "pp-021",
+    "slug": "dramatic-mountain-landscape",
+    "title": "Dramatic Mountain Landscape",
+    "description": "A wide alpine scene at sunrise with a rocky foreground, a misty valley and layered peaks. The depth comes from three clear planes, making the image feel big without looking crowded.",
+    "promptText": "Dramatic landscape photograph of an alpine valley at sunrise, a rocky foreground with small wildflowers and wet stone, a winding river in the middle ground, and layers of snow-capped peaks fading into the distance through thin morning mist. Warm golden light striking the highest peaks while the valley floor remains in cool blue shade, towering clouds catching pink and orange. 24mm lens, aperture f/11, deep depth of field, high dynamic range with natural contrast, fine detail in rock and snow, atmospheric perspective. Horizontal 16:9 composition, foreground rocks in the lower left, horizon on the upper third.",
+    "category": "nature-and-landscapes",
+    "tags": ["mountains", "sunrise", "mist", "layers", "wide angle"],
+    "style": "cinematic",
+    "uses": ["wall-art", "portfolio"],
+    "aspect": "landscape",
+    "ratio": "16:9",
+    "imageAlt": "Alpine valley at sunrise with misty layers of snow-capped peaks and a winding river",
+    "supportedTools": ["chatgpt", "gemini", "firefly", "midjourney"],
+    "tested": false,
+    "publishedAt": "2026-10-17",
+    "featured": true,
+    "language": "en",
+    "visualNotes": "Landscapes feel deep when you can name the planes: foreground rocks, mid-ground river, far peaks. Mist reduces contrast with distance, so each layer is lighter and bluer than the last, a cue the human eye reads as scale.",
+    "customize": {
+      "lighting": "Switch to 'blue hour before sunrise, glowing horizon' for a quiet, cool image, or 'stormy light with breaking sunbeams' for drama.",
+      "camera": "A 16mm lens exaggerates the foreground and makes mountains seem farther; a 70mm lens compresses peaks and makes them tower.",
+      "background": "Swap the Alps for desert canyons, a fjord, or a volcanic island. Keep the three-plane structure.",
+      "wardrobe": "Add a tiny hiker in a red jacket on a ridge to give scale and a colour accent.",
+      "mood": "Replace 'sunrise' with 'first snowfall' for a hushed, wintry feeling.",
+      "composition": "Put the horizon on the lower third and give more sky if you want towering clouds to dominate.",
+      "aspectRatio": "16:9 for screens; request 3:2 for prints and 21:9 for panoramic banners."
+    }
+  },
+  {
+    "id": "pp-022",
+    "slug": "himalayan-village-travel-photograph",
+    "title": "Hillside Village Travel Photograph",
+    "description": "A travel photograph of a terraced hillside village in early morning, with woodsmoke, a footpath and a figure carrying a basket. It captures a sense of place, and the prompt avoids naming any specific town or culture.",
+    "promptText": "Documentary-style travel photograph of a small terraced hillside village in early morning, stone and timber houses stepping up a green slope, thin woodsmoke rising from chimneys, a narrow footpath leading through the terraces with a person in the distance carrying a woven basket. Soft golden light on the upper slopes, cool shadow in the valley, low clouds drifting between ridges. 35mm lens, aperture f/8, natural colours with slightly muted greens, fine detail in roofs and terraces, authentic and unposed. Horizontal 3:2 composition, path leading the eye from lower right to the village on the upper left.",
+    "category": "nature-and-landscapes",
+    "tags": ["travel", "village", "terraces", "morning", "documentary"],
+    "style": "documentary",
+    "uses": ["portfolio", "storytelling"],
+    "aspect": "landscape",
+    "ratio": "3:2",
+    "imageAlt": "Terraced hillside village with woodsmoke and a footpath in soft morning light",
+    "supportedTools": ["chatgpt", "gemini", "leonardo"],
+    "tested": false,
+    "publishedAt": "2026-10-18",
+    "featured": false,
+    "language": "en",
+    "visualNotes": "A path is one of the oldest composition tools: it pulls the eye through the frame. The distant figure supplies scale, and the woodsmoke adds a hint of time and daily life without crowding the scene.",
+    "customize": {
+      "lighting": "For a mystical look request 'dense fog filling the valley, only rooftops visible'. For harsher clarity ask for 'bright midday, deep blue sky'.",
+      "camera": "A 50mm lens flattens the terraces into a pattern; a drone-style 'aerial view' gives a map-like composition.",
+      "background": "Replace the hills with a coastal fishing village or a vineyard town to reuse the same stepping-structure logic.",
+      "wardrobe": "Describe local clothing in general colours (a red shawl, a wool cap) to add accents without cultural stereotypes.",
+      "mood": "Use 'monsoon season, wet slate roofs and low cloud' for a cooler, moodier tone.",
+      "composition": "Let the path start at the very bottom corner so it clearly leads the eye into the frame.",
+      "aspectRatio": "3:2 is ideal for prints and travel blogs. For feeds use 4:5 and keep the path in the lower half."
+    }
+  }
+]

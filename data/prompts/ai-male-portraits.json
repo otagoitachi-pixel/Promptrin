@@ -1,0 +1,62 @@
+[
+  {
+    "id": "pp-001",
+    "slug": "cinematic-male-portrait",
+    "title": "Cinematic Male Portrait",
+    "description": "A close, quiet portrait of a man lit like a film still: one warm key light from the side, a cool dark background and a shallow focus that isolates the face. It suits profile pictures and character references that need weight without looking staged.",
+    "promptText": "Cinematic close-up portrait of a man in his mid-thirties with short dark hair and light stubble, looking slightly off camera with a calm, thoughtful expression. A single warm key light from camera left, soft falloff across the cheek, deep teal shadows on the right side of the face. Dark charcoal wall background, subtle haze in the air. Charcoal wool jacket over a plain black crew-neck. 85mm lens, aperture f/1.8, shallow depth of field, natural skin texture with visible pores, fine film grain, muted colour grade with warm highlights and cool shadows. Vertical 4:5 composition, head and shoulders, subject placed slightly right of centre.",
+    "category": "ai-male-portraits",
+    "tags": ["cinematic", "close-up", "key light", "film still", "profile picture"],
+    "style": "cinematic",
+    "uses": ["profile-picture", "storytelling"],
+    "aspect": "portrait",
+    "ratio": "4:5",
+    "imageAlt": "Close-up cinematic portrait of a man lit from one side against a dark teal wall",
+    "supportedTools": ["chatgpt", "gemini", "firefly"],
+    "tested": false,
+    "publishedAt": "2026-10-04",
+    "featured": true,
+    "trendingRank": 1,
+    "language": "en",
+    "visualNotes": "The look comes from a single motivated light and a colour split: warm highlights against cool shadows. Because only one source is described, the model has little room to flatten the face with fill light, which is what keeps the image feeling like a still from a film rather than a studio test shot.",
+    "customize": {
+      "lighting": "Move the key light to camera right for the opposite cheek, or add the phrase 'practical lamp in the background' to bring a second, softer warm source into the frame.",
+      "camera": "Try 50mm for a little more shoulder and room, or 135mm for a tighter, more compressed face. Lower the camera slightly for a stronger, more heroic stance.",
+      "background": "Swap the charcoal wall for a rain-streaked window or a dim bookshelf. Keep the background dark so the face stays the brightest area.",
+      "wardrobe": "A roll-neck, leather jacket or open-collar shirt each change the character. Stay with solid colours; patterns can distract from the face.",
+      "mood": "Replace 'calm, thoughtful' with 'tired but resolute' or 'quietly amused' to shift the story without touching the light.",
+      "composition": "Place the subject on the left third and let him look into the empty space on the right for a more traditional film-frame balance.",
+      "aspectRatio": "4:5 suits social feeds. For a banner or poster crop, request 16:9 or 2:3 and ask for more headroom."
+    }
+  },
+  {
+    "id": "pp-002",
+    "slug": "golden-hour-rooftop-portrait",
+    "title": "Golden Hour Rooftop Portrait",
+    "description": "A relaxed half-length portrait of a man on a city rooftop just before sunset, with warm backlight, a soft glow in the hair and a hazy skyline behind. It works for creator profiles and lifestyle posts that need an easygoing, optimistic mood.",
+    "promptText": "Half-length portrait of a young man in his late twenties standing on a city rooftop at golden hour, leaning casually against a low concrete wall, gentle confident smile, looking at the camera. Warm low sun behind him creating a soft rim light in his hair, gentle fill from the sky on his face. Hazy city skyline softly out of focus behind him. Cream linen shirt with sleeves rolled to the forearms, dark trousers. 50mm lens, aperture f/2.2, natural colour, warm highlights, true-to-life skin tones, light atmospheric haze. Vertical 4:5 framing, eye line in the upper third, subject slightly left of centre.",
+    "category": "ai-male-portraits",
+    "tags": ["golden hour", "rooftop", "lifestyle", "backlight", "creator"],
+    "style": "golden-hour",
+    "uses": ["social-media", "profile-picture"],
+    "aspect": "portrait",
+    "ratio": "4:5",
+    "imageAlt": "Man in a linen shirt on a rooftop with warm sunset light behind him",
+    "supportedTools": ["chatgpt", "gemini", "leonardo"],
+    "tested": false,
+    "publishedAt": "2026-10-09",
+    "updatedAt": "2026-10-21",
+    "featured": true,
+    "language": "en",
+    "visualNotes": "Backlight is the whole trick here. With the sun behind the subject, the face is lit only by bounced sky light, which looks soft and flattering. The risk is a silhouette, which is why the prompt explicitly asks for gentle fill on the face.",
+    "customize": {
+      "lighting": "For a moodier sunset, replace 'golden hour' with 'last light after sunset, blue hour' and lower the fill light to keep a darker, cooler face.",
+      "camera": "Use 35mm and step back for a wider environmental portrait that shows more of the rooftop, or keep 50mm for the intimate look described.",
+      "background": "A seaside promenade, a hillside terrace or a quiet street corner all keep the same light logic. Always keep the horizon out of focus.",
+      "wardrobe": "A denim jacket or a plain white tee suits a younger audience; a light blazer pushes the image toward professional branding.",
+      "mood": "'Gentle confident smile' can become 'laughing mid-sentence' for a candid feel or 'serious, steady gaze' for a stronger tone.",
+      "composition": "Crop to a full-length frame by changing 'half-length' to 'full-length' and giving the wall and skyline more room.",
+      "aspectRatio": "4:5 for feeds, 9:16 for stories and reels. For 9:16, ask for extra sky so the top of the frame is not cramped."
+    }
+  }
+]

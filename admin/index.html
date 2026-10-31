@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Prompt Admin</title>
+<style>
+:root{--bg:#F8F7F4;--panel:#fff;--ink:#191919;--muted:#6b6963;--line:#e4e1da;--accent:#FF5A4E;--accent-ink:#fff;--ok:#1d7a46;--warn:#9a6700;--bad:#c0281d;--soft:#f0eee9;--radius:12px;--shadow:0 1px 2px rgba(25,25,25,.06),0 8px 24px rgba(25,25,25,.05)}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--panel:#1d1d1d;--ink:#f3f1ec;--muted:#a19e96;--line:#2d2d2d;--soft:#262626;--ok:#4cc27f;--warn:#e0a93b;--bad:#ff7a6f;--shadow:0 1px 2px rgba(0,0,0,.4)}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:22px 16px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;background:var(--panel)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;padding:0 8px 18px}
+.brand i{width:26px;height:26px;border-radius:8px;background:var(--accent);display:inline-block}
+.brand small{display:block;font-weight:500;color:var(--muted);letter-spacing:0;font-size:12px}
+.nav button{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;width:100%;padding:9px 12px;border-radius:9px;cursor:pointer;color:var(--muted);font-weight:550}
+.nav button:hover{background:var(--soft);color:var(--ink)}
+.nav button[aria-current=page]{background:var(--ink);color:var(--bg)}
+.nav button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.drop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pill{font-size:12px;border-radius:99px;padding:1px 8px;background:var(--soft);color:var(--muted)}
+[aria-current=page] .pill{background:rgba(255,255,255,.18);color:inherit}
+.side .foot{margin-top:auto;font-size:12px;color:var(--muted);padding:8px}
+main{padding:28px clamp(16px,3vw,40px) 80px;min-width:0}
+.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:22px}
+h1{font-size:26px;line-height:1.2;margin:0;letter-spacing:-.01em}
+h2{font-size:16px;margin:0 0 4px}
+.sub{color:var(--muted);margin:2px 0 0}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--panel);padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:600;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(.95)}
+.btn.dark{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.stat{padding:14px 16px}
+.stat b{font-size:26px;display:block;line-height:1.1}
+.stat span{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.toolbar input,.toolbar select{padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+.toolbar input{flex:1;min-width:200px}
+.table{width:100%;border-collapse:separate;border-spacing:0}
+.table th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);font-weight:600}
+.table td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.table tr:last-child td{border-bottom:0}
+.table tbody tr:hover{background:var(--soft)}
+.thumb{width:48px;height:60px;border-radius:8px;object-fit:cover;background:var(--soft);display:block;border:1px solid var(--line)}
+.thumb.empty{display:grid;place-items:center;font-size:10px;color:var(--muted);text-align:center;line-height:1.1}
+.title{font-weight:650}
+.meta{color:var(--muted);font-size:13px}
+.badge{display:inline-block;font-size:12px;font-weight:600;border-radius:6px;padding:1px 8px;margin-right:4px;background:var(--soft);color:var(--muted)}
+.badge.ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+.badge.warn{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn)}
+.badge.bad{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+.actions{display:flex;gap:6px;justify-content:flex-end}
+.empty-state{padding:56px 20px;text-align:center;color:var(--muted)}
+.editor{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
+.sections{display:grid;gap:16px}
+.card.pad{padding:20px}
+.card header{margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.field{display:grid;gap:5px;margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field>label,.legend{font-weight:600;font-size:14px}
+.hint{color:var(--muted);font-size:12.5px}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.count{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.count.bad{color:var(--bad)}
+.count.ok{color:var(--ok)}
+.input,textarea.input,select.input{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg)}
+textarea.input{min-height:92px;resize:vertical;line-height:1.5}
+textarea.mono{font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;min-height:190px}
+.input.invalid{border-color:var(--bad)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:6px;border:1px solid var(--line);border-radius:9px;background:var(--bg)}
+.chips input{border:0;background:transparent;outline:0;min-width:120px;flex:1;padding:4px 6px}
+.chip{display:inline-flex;gap:6px;align-items:center;background:var(--soft);border-radius:99px;padding:2px 4px 2px 10px;font-size:13px}
+.chip button{all:unset;cursor:pointer;width:18px;height:18px;border-radius:50%;text-align:center;line-height:18px;color:var(--muted)}
+.chip button:hover{background:var(--line);color:var(--ink)}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.choice span{display:inline-block;padding:6px 12px;border:1px solid var(--line);border-radius:99px;background:var(--bg);font-size:13.5px;font-weight:550}
+.choice input:checked+span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.choice input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.drop{border:2px dashed var(--line);border-radius:var(--radius);padding:22px;text-align:center;cursor:pointer;background:var(--bg);color:var(--muted);transition:.15s}
+.drop:hover,.drop.over{border-color:var(--accent);color:var(--ink)}
+.drop img{max-height:340px;max-width:100%;border-radius:10px;display:block;margin:0 auto 10px}
+.drop b{color:var(--ink)}
+.notice{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--panel);border-radius:9px;padding:10px 14px;font-size:13.5px;margin-bottom:14px}
+.notice.bad{border-left-color:var(--bad)}
+.notice.ok{border-left-color:var(--ok)}
+.notice ul{margin:6px 0 0;padding-left:18px}
+.side-col{position:sticky;top:20px;display:grid;gap:16px}
+.preview img{width:100%;border-radius:10px;display:block;background:var(--soft)}
+.preview .ph{aspect-ratio:4/5;border-radius:10px;background:var(--soft);display:grid;place-items:center;color:var(--muted);font-size:13px}
+.preview h3{margin:12px 0 4px;font-size:16px;line-height:1.3}
+.promptbox{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:13px;max-height:150px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin:8px 0 10px}
+.check{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:13.5px}
+.check li{display:flex;gap:8px;align-items:flex-start;color:var(--muted)}
+.check li::before{content:"";flex:none;width:16px;height:16px;border-radius:50%;border:2px solid var(--line);margin-top:2px}
+.check li.done{color:var(--ink)}
+.check li.done::before{background:var(--ok);border-color:var(--ok);box-shadow:inset 0 0 0 3px var(--panel)}
+.bar{height:6px;border-radius:9px;background:var(--soft);overflow:hidden;margin:6px 0 12px}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .2s}
+.savebar{position:sticky;bottom:0;margin:20px -4px 0;padding:12px 4px;display:flex;gap:10px;justify-content:flex-end;align-items:center;background:linear-gradient(to top,var(--bg) 70%,transparent);flex-wrap:wrap}
+.log{background:#111;color:#e9e6df;border-radius:10px;padding:14px;font:12.5px/1.55 ui-monospace,Menlo,monospace;max-height:420px;overflow:auto;white-space:pre-wrap}
+#toasts{position:fixed;right:18px;bottom:18px;display:grid;gap:8px;z-index:50}
+.toast{background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;box-shadow:var(--shadow);max-width:340px;font-weight:550;animation:in .2s}
+.toast.bad{background:var(--bad);color:#fff}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);padding:22px;max-width:420px;box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:18px 0 0}
+.sr{position:absolute;left:-9999px}
+@media (max-width:1080px){.editor{grid-template-columns:1fr}.side-col{position:static}}
+@media (max-width:760px){.app{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px 12px}.brand{padding:0 8px 0 0}.side .foot{display:none}.nav{display:flex;gap:4px;flex-wrap:wrap}.nav button{width:auto}.grid2{grid-template-columns:1fr}.table .hide-sm{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><i aria-hidden="true"></i><div><span id="brand">Prompt Admin</span><small>Content manager</small></div></div>
+    <nav class="nav" aria-label="Admin">
+      <button data-nav="library">Library <span class="pill" id="n-lib">0</span></button>
+      <button data-nav="drafts">Drafts <span class="pill" id="n-draft">0</span></button>
+      <button data-nav="editor">Add prompt</button>
+      <button data-nav="bulk">Bulk upload</button>
+      <button data-nav="guides">Guides</button>
+      <button data-nav="build">Publish site</button>
+    </nav>
+    <div class="foot">Local tool. Changes write to <code>data/</code> and <code>images/</code> on this computer.</div>
+  </aside>
+  <main id="main" tabindex="-1"></main>
+</div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<dialog id="dlg"><h2 id="dlg-t"></h2><p id="dlg-b" class="sub"></p><menu><button class="btn" value="cancel">Cancel</button><button class="btn dark" value="ok" id="dlg-ok">OK</button></menu></dialog>
+
+<script>
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const RATIOS = ['1:1', '4:5', '3:4', '2:3', '9:16', '3:2', '4:3', '16:9'];
+const TOOL_NAMES = { chatgpt: 'ChatGPT', gemini: 'Gemini', firefly: 'Adobe Firefly', midjourney: 'Midjourney', leonardo: 'Leonardo', copilot: 'Copilot' };
+let meta, lib = { published: [], drafts: [] }, view = 'library', form = null, dirty = false, filters = { q: '', cat: '', sort: 'new' };
+
+// ---------- tiny DOM helper (text is always set as text, never HTML)
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === false || v == null) continue;
+    if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else if (k === 'class') el.className = v;
+    else if (k === 'dataset') Object.assign(el.dataset, v);
+    else if (k in el && k !== 'list') el[k] = v;
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : document.createTextNode(kid));
+  return el;
+}
+function toast(msg, bad) {
+  const t = h('div', { class: 'toast' + (bad ? ' bad' : '') }, msg);
+  $('#toasts').append(t);
+  setTimeout(() => t.remove(), bad ? 6000 : 2800);
+}
+function confirmDialog(title, body, okLabel = 'Confirm') {
+  return new Promise((resolve) => {
+    const d = $('#dlg');
+    $('#dlg-t').textContent = title; $('#dlg-b').textContent = body; $('#dlg-ok').textContent = okLabel;
+    d.addEventListener('close', () => resolve(d.returnValue === 'ok'), { once: true });
+    d.querySelectorAll('button').forEach((b) => (b.onclick = () => d.close(b.value)));
+    d.showModal();
+  });
+}
+async function api(path, opts = {}) {
+  const res = await fetch(path, { ...opts, headers: { 'X-Admin-Request': '1', 'Content-Type': 'application/json', ...(opts.headers || {}) } });
+  const type = res.headers.get('content-type') || '';
+  const data = type.includes('json') ? await res.json() : await res.text();
+  if (!res.ok) { const e = new Error('Request failed'); e.errors = data.errors || [String(data)]; throw e; }
+  return data;
+}
+const slugify = (s) => s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70);
+const liveSlug = (s) => s.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/-{2,}/g, '-').replace(/^-+/, '').slice(0, 70);
+const catName = (slug) => meta.categories.find((c) => c.slug === slug)?.name || slug;
+const blank = () => ({ id: '', slug: '', slugEdited: false, title: '', description: '', promptText: '', category: '', tags: [], style: '', uses: [], ratio: '4:5', imageAlt: '', supportedTools: [], tested: false, featured: false, visualNotes: '', seoTitle: '', seoDescription: '', customize: Object.fromEntries(meta.customizeKeys.map((k) => [k, ''])), imageData: '', existingImage: false, imageVersion: 0, mode: 'new' });
+
+// ---------- navigation
+async function refresh() {
+  lib = await api('/api/library');
+  $('#n-lib').textContent = lib.published.length;
+  $('#n-draft').textContent = lib.drafts.length;
+}
+async function go(next, opts = {}) {
+  if (dirty && ['editor', 'bulk', 'guide-edit'].includes(view) && next !== view && !opts.force) {
+    if (!(await confirmDialog('Discard unsaved changes?', 'You have changes that are not saved yet.', 'Discard'))) return;
+  }
+  dirty = false;
+  view = next;
+  if (next === 'editor' && !opts.keep) form = blank();
+  document.querySelectorAll('[data-nav]').forEach((b) => (b.dataset.nav === (view === 'guide-edit' ? 'guides' : view) ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current')));
+  await render();
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => go(b.dataset.nav)));
+window.addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+async function render() {
+  const main = $('#main');
+  main.replaceChildren();
+  if (view === 'library') main.append(libraryView(false));
+  else if (view === 'drafts') main.append(libraryView(true));
+  else if (view === 'editor') main.append(editorView());
+  else if (view === 'bulk') main.append(bulkView());
+  else if (view === 'guides') main.append(await guidesView());
+  else if (view === 'guide-edit') main.append(guideEditor());
+  else if (view === 'build') main.append(buildView());
+}
+
+// ---------- library
+function libraryView(drafts) {
+  const items = drafts ? lib.drafts : lib.published;
+  const q = filters.q.toLowerCase();
+  let rows = items.filter((p) => (!filters.cat || p.category === filters.cat) && (!q || [p.title, p.slug, p.promptText, (p.tags || []).join(' ')].join(' ').toLowerCase().includes(q)));
+  rows.sort((a, b) => filters.sort === 'az' ? (a.title || '').localeCompare(b.title || '') : (b.publishedAt || '').localeCompare(a.publishedAt || '') || (b.id || '').localeCompare(a.id || ''));
+  const noImg = lib.published.filter((p) => !p.hasImage).length;
+  const root = h('div');
+  root.append(h('div', { class: 'top' },
+    h('div', {}, h('h1', {}, drafts ? 'Drafts' : 'Prompt library'), h('p', { class: 'sub' }, drafts ? 'Unfinished prompts. Drafts are never built into the site.' : 'Every published prompt and its image.')),
+    h('button', { class: 'btn primary', onclick: () => go('editor') }, '+ Add prompt')));
+  if (!drafts) {
+    root.append(h('div', { class: 'stats' },
+      stat(lib.published.length, 'Published prompts'),
+      stat(lib.published.length - noImg, 'With your image'),
+      stat(noImg, 'Using demo artwork'),
+      stat(lib.drafts.length, 'Drafts')));
+  }
+  root.append(h('div', { class: 'toolbar' },
+    h('input', { type: 'search', placeholder: 'Search title, prompt or tag', 'aria-label': 'Search', value: filters.q, oninput: (e) => { filters.q = e.target.value; const pos = e.target.selectionStart; render().then(() => { const i = $('.toolbar input'); i.focus(); i.setSelectionRange(pos, pos); }); } }),
+    h('select', { 'aria-label': 'Category', onchange: (e) => { filters.cat = e.target.value; render(); } }, h('option', { value: '' }, 'All categories'), meta.categories.map((c) => h('option', { value: c.slug, selected: filters.cat === c.slug }, c.name))),
+    h('select', { 'aria-label': 'Sort', onchange: (e) => { filters.sort = e.target.value; render(); } }, h('option', { value: 'new', selected: filters.sort === 'new' }, 'Newest first'), h('option', { value: 'az', selected: filters.sort === 'az' }, 'A to Z'))));
+  const card = h('div', { class: 'card', style: 'overflow:auto' });
+  if (!rows.length) {
+    card.append(h('div', { class: 'empty-state' }, h('p', {}, items.length ? 'No prompts match your filters.' : drafts ? 'No drafts yet.' : 'No prompts yet.'), h('button', { class: 'btn primary', onclick: () => go('editor') }, 'Add your first prompt')));
+  } else {
+    card.append(h('table', { class: 'table' },
+      h('thead', {}, h('tr', {}, h('th', {}, 'Image'), h('th', {}, 'Prompt'), h('th', { class: 'hide-sm' }, 'Category'), h('th', { class: 'hide-sm' }, 'Tools'), h('th', { class: 'hide-sm' }, 'Date'), h('th', {}, ''))),
+      h('tbody', {}, rows.map((p) => row(p, drafts)))));
+  }
+  root.append(card);
+  return root;
+}
+const stat = (n, label) => h('div', { class: 'stat' }, h('b', {}, String(n)), h('span', {}, label));
+function thumb(p) {
+  if (p._draft && p.imageData) return h('img', { class: 'thumb', src: p.imageData, alt: '' });
+  if (p.hasImage) return h('img', { class: 'thumb', src: `/api/image/${encodeURIComponent(p.slug)}?v=${p.imageVersion}`, alt: '', loading: 'lazy' });
+  return h('div', { class: 'thumb empty' }, 'No image');
+}
+function row(p, draft) {
+  return h('tr', {},
+    h('td', {}, thumb(p)),
+    h('td', {}, h('div', { class: 'title' }, p.title || '(untitled)'), h('div', { class: 'meta' }, '/' + (p.slug || '…') + '/ · ' + (p.ratio || '')), h('div', {}, draft ? h('span', { class: 'badge warn' }, 'Draft') : p.hasImage ? h('span', { class: 'badge ok' }, 'Your image') : h('span', { class: 'badge bad' }, 'Demo artwork'), p.tested ? h('span', { class: 'badge ok' }, 'Tested') : h('span', { class: 'badge' }, 'Untested'), p.featured ? h('span', { class: 'badge' }, 'Featured') : null)),
+    h('td', { class: 'hide-sm' }, p.category ? catName(p.category) : '-'),
+    h('td', { class: 'hide-sm meta' }, (p.supportedTools || []).map((t) => TOOL_NAMES[t] || t).join(', ') || '-'),
+    h('td', { class: 'hide-sm meta' }, p.publishedAt || '-'),
+    h('td', {}, h('div', { class: 'actions' },
+      h('button', { class: 'btn sm', title: 'Copy prompt text', onclick: () => copy(p.promptText) }, 'Copy'),
+      h('button', { class: 'btn sm', onclick: () => edit(p, draft) }, 'Edit'),
+      h('button', { class: 'btn sm danger', onclick: () => remove(p, draft) }, 'Delete'))));
+}
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text || ''); toast('Prompt copied'); }
+  catch { const t = h('textarea', { value: text || '' }); document.body.append(t); t.select(); const ok = document.execCommand('copy'); t.remove(); ok ? toast('Prompt copied') : toast('Copy failed. Select the text manually.', true); }
+}
+function edit(p, draft) {
+  form = { ...blank(), ...JSON.parse(JSON.stringify({ ...p, hasImage: undefined, _file: undefined, _draft: undefined })), slugEdited: true, mode: draft ? 'draft' : 'edit', existingImage: !!p.hasImage && !p._draft, imageVersion: p.imageVersion || 0, imageData: p._draft ? p.imageData || '' : '' };
+  form.customize = { ...blank().customize, ...(p.customize || {}) };
+  go('editor', { keep: true });
+}
+async function remove(p, draft) {
+  if (!(await confirmDialog(`Delete "${p.title || p.slug}"?`, draft ? 'This draft will be removed.' : 'The prompt and its image will be removed from the site data. A backup of the category file is kept in .admin-backups/.', 'Delete'))) return;
+  try { await api(`/api/prompts/${encodeURIComponent(p.id)}?kind=${draft ? 'draft' : 'published'}`, { method: 'DELETE' }); await refresh(); toast('Deleted'); render(); }
+  catch (e) { toast(e.errors.join(' '), true); }
+}
+
+// ---------- editor
+function editorView() {
+  const f = form;
+  const root = h('div');
+  const errBox = h('div', { id: 'errs' });
+  const preview = h('div', { class: 'card pad preview', id: 'preview' });
+  const checklist = h('div', { class: 'card pad', id: 'checklist' });
+  const touch = () => { dirty = true; updateSide(); };
+
+  const text = (key, opts = {}) => {
+    const el = h(opts.area ? 'textarea' : 'input', { class: 'input' + (opts.mono ? ' mono' : ''), id: 'f-' + key, value: f[key] || '', placeholder: opts.ph || '', maxLength: opts.max, oninput: (e) => { f[key] = e.target.value; if (opts.after) opts.after(e); counter(key); touch(); } });
+    return el;
+  };
+  const counters = {};
+  const counter = (key) => { const c = counters[key]; if (!c) return; const n = (f[key] || '').length; c.textContent = `${n}${c.dataset.min ? ' / ' + c.dataset.min + ' min' : ''}`; c.className = 'count ' + (c.dataset.min ? (n >= Number(c.dataset.min) ? 'ok' : 'bad') : ''); };
+  const field = (key, label, input, hint, min) => {
+    const c = h('span', { class: 'count', dataset: min ? { min } : {} });
+    counters[key] = c;
+    queueMicrotask(() => counter(key));
+    return h('div', { class: 'field' }, h('div', { class: 'row' }, h('label', { for: 'f-' + key }, label), c), input, hint ? h('div', { class: 'hint' }, hint) : null);
+  };
+
+  // chips input for tags
+  const tagBox = h('div', { class: 'chips' });
+  const tagInput = h('input', { id: 'f-tags', placeholder: 'Type a tag, press Enter', 'aria-label': 'Add tag', onkeydown: (e) => { if ((e.key === 'Enter' || e.key === ',') && tagInput.value.trim()) { e.preventDefault(); addTag(tagInput.value); } else if (e.key === 'Backspace' && !tagInput.value && f.tags.length) { f.tags.pop(); drawTags(); touch(); } }, onblur: () => tagInput.value.trim() && addTag(tagInput.value) });
+  const addTag = (v) => { const t = v.trim().toLowerCase().replace(/,/g, ''); if (t && !f.tags.includes(t)) f.tags.push(t); tagInput.value = ''; drawTags(); touch(); };
+  function drawTags() { tagBox.replaceChildren(...f.tags.map((t) => h('span', { class: 'chip' }, t, h('button', { type: 'button', 'aria-label': 'Remove ' + t, onclick: () => { f.tags = f.tags.filter((x) => x !== t); drawTags(); touch(); } }, '×'))), tagInput); }
+  drawTags();
+
+  const choices = (key, map) => h('div', { class: 'choices' }, Object.entries(map).map(([val, label]) => h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: f[key].includes(val), onchange: (e) => { f[key] = e.target.checked ? [...f[key], val] : f[key].filter((x) => x !== val); touch(); } }), h('span', {}, label))));
+
+  // image drop zone
+  const drop = h('div', { class: 'drop', tabindex: 0, role: 'button', 'aria-label': 'Choose or drop the AI image' });
+  const file = h('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp', class: 'sr', tabindex: -1, onchange: (e) => e.target.files[0] && takeFile(e.target.files[0]) });
+  function drawDrop(info) {
+    const src = f.imageData || (f.existingImage ? `/api/image/${encodeURIComponent(f.slug || '')}?v=${f.imageVersion}` : '');
+    drop.replaceChildren(src ? h('img', { src, alt: 'Selected image preview', onload: (e) => { f._w = e.target.naturalWidth; f._h = e.target.naturalHeight; updateSide(); } }) : '', h('div', {}, h('b', {}, src ? 'Replace image' : 'Drop the AI image here'), ' or click to browse'), h('div', { class: 'hint' }, 'JPG, PNG or WebP, up to 10 MB. You can also paste an image.'), info ? h('div', { class: 'hint' }, info) : null);
+  }
+  function takeFile(fl) {
+    if (!/^image\/(jpeg|png|webp)$/.test(fl.type)) return toast('Use a JPG, PNG or WebP image.', true);
+    if (fl.size > 10 * 1048576) return toast('That image is over 10 MB.', true);
+    const r = new FileReader();
+    r.onload = () => { f.imageData = r.result; if (!f.imageAlt && !f.title) { /* nothing to derive */ } drawDrop(`${fl.name} · ${(fl.size / 1024).toFixed(0)} KB`); touch(); };
+    r.readAsDataURL(fl);
+  }
+  drop.addEventListener('click', () => file.click());
+  drop.addEventListener('keydown', (e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), file.click()));
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); e.dataTransfer.files[0] && takeFile(e.dataTransfer.files[0]); });
+  drawDrop();
+  if (window._paste) document.removeEventListener('paste', window._paste);
+  window._paste = (e) => { const it = [...(e.clipboardData?.files || [])].find((x) => x.type.startsWith('image/')); if (it && view === 'editor' && document.body.contains(drop)) takeFile(it); };
+  document.addEventListener('paste', window._paste);
+
+  const slugInput = text('slug', { ph: 'auto-from-title', after: (e) => { f.slugEdited = true; e.target.value = f.slug = liveSlug(e.target.value); } });
+  slugInput.addEventListener('blur', () => { slugInput.value = f.slug = slugify(slugInput.value); updateSide(); });
+  const titleInput = text('title', { ph: 'Romantic Couple Beach Walk', max: 90, after: () => { if (!f.slugEdited) { f.slug = slugify(f.title); slugInput.value = f.slug; } } });
+
+  root.append(
+    h('div', { class: 'top' },
+      h('div', {}, h('h1', {}, f.mode === 'edit' ? 'Edit prompt' : f.mode === 'draft' ? 'Edit draft' : 'Add prompt'), h('p', { class: 'sub' }, 'Upload the AI image, paste the exact prompt you used, then publish.')),
+      h('button', { class: 'btn', onclick: () => go('library') }, 'Back to library')),
+    errBox,
+    h('div', { class: 'editor' },
+      h('div', { class: 'sections' },
+        h('section', { class: 'card pad' }, h('header', {}, h('h2', {}, '1. Image'), h('p', { class: 'sub' }, 'Upload the image this prompt actually produced. It is shown on the site as AI-generated artwork.')), drop, file),
+        h('section', { class: 'card pad' }, h('header', {}, h('h2', {}, '2. Prompt')),
+          field('title', 'Title', titleInput, 'A clear title for the scene. It becomes the page heading.'),
+          field('slug', 'URL slug', slugInput, 'Lowercase words with hyphens. Changing the slug of a live prompt changes its URL.'),
+          field('promptText', 'Prompt text', text('promptText', { area: true, mono: true, ph: 'Paste the exact prompt you used. It is not edited or rewritten.' }), 'Paste it exactly as you used it. Visitors copy this text.', 80),
+          h('div', { class: 'actions', style: 'justify-content:flex-start;margin-top:-6px' }, h('button', { class: 'btn sm', type: 'button', onclick: () => copy(f.promptText) }, 'Copy prompt')),
+        ),
+        h('section', { class: 'card pad' }, h('header', {}, h('h2', {}, '3. Description and image details')),
+          field('description', 'Description', text('description', { area: true, ph: 'What the image shows and who it suits.', max: 400 }), 'Write for visitors in your own words. Describe only what is actually in the image.', 60),
+          field('imageAlt', 'Alt text', text('imageAlt', { ph: 'Couple walking hand in hand on a beach at sunset', max: 140 }), 'Describe what is visible, for screen readers. Do not call an AI image a real photograph.'),
+          field('visualNotes', 'What makes it work', text('visualNotes', { area: true, ph: 'Why the lighting, pose or composition works.' }), 'A short note on the technique behind the image.')),
+        h('section', { class: 'card pad' }, h('header', {}, h('h2', {}, '4. Classification')),
+          h('div', { class: 'grid2' },
+            h('div', { class: 'field' }, h('label', { for: 'f-category' }, 'Category'), h('select', { class: 'input', id: 'f-category', onchange: (e) => { f.category = e.target.value; touch(); } }, h('option', { value: '' }, 'Choose…'), meta.categories.map((c) => h('option', { value: c.slug, selected: f.category === c.slug }, c.name)))),
+            h('div', { class: 'field' }, h('label', { for: 'f-style' }, 'Style'), h('select', { class: 'input', id: 'f-style', onchange: (e) => { f.style = e.target.value; touch(); } }, h('option', { value: '' }, 'Choose…'), Object.entries(meta.taxonomy.styles).map(([k, v]) => h('option', { value: k, selected: f.style === k }, v))))),
+          h('div', { class: 'field' }, h('label', { for: 'f-ratio' }, 'Aspect ratio'), h('select', { class: 'input', id: 'f-ratio', onchange: (e) => { f.ratio = e.target.value; touch(); } }, [...new Set([...RATIOS, f.ratio])].map((r) => h('option', { value: r, selected: f.ratio === r }, r)))),
+          h('div', { class: 'field' }, h('div', { class: 'legend' }, 'Best for'), choices('uses', meta.taxonomy.uses)),
+          h('div', { class: 'field' }, h('div', { class: 'legend' }, 'Tools you used or tested it with'), choices('supportedTools', Object.fromEntries(Object.entries(meta.taxonomy.tools).map(([k, v]) => [k, typeof v === 'object' ? v.name || TOOL_NAMES[k] || k : TOOL_NAMES[k] || v]))), h('div', { class: 'hint' }, 'Only tick tools you really used. Tool labels are public claims.')),
+          h('div', { class: 'field' }, h('label', { for: 'f-tags' }, 'Tags'), tagBox, h('div', { class: 'hint' }, 'Short lowercase words that describe the scene.')),
+          h('div', { class: 'choices' },
+            h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: f.tested, onchange: (e) => { f.tested = e.target.checked; touch(); } }), h('span', {}, 'I tested this prompt')),
+            h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: f.featured, onchange: (e) => { f.featured = e.target.checked; touch(); } }), h('span', {}, 'Feature on homepage')))),
+        h('section', { class: 'card pad' }, h('header', {}, h('h2', {}, '5. Search appearance (SEO)'), h('p', { class: 'sub' }, 'Optional. Leave empty and the site builds a good title and description from the fields above.')),
+          field('seoTitle', 'Search title', text('seoTitle', { ph: 'Romantic Couple Beach Prompt for AI Photos', max: 80 }), 'Shown in Google. Best at 50 to 60 characters.'),
+          field('seoDescription', 'Search description', text('seoDescription', { area: true, ph: 'One sentence that says what the visitor gets.', max: 200 }), 'Best at 120 to 155 characters.'),
+          h('div', { id: 'serp', class: 'notice', style: 'border-left-color:var(--line);margin:14px 0 0' })),
+        h('section', { class: 'card pad' }, h('header', {}, h('h2', {}, '6. Customisation guide (optional)'), h('p', { class: 'sub' }, 'Original advice for changing each part of the image. Fill in all seven rows to show it on the page, or leave them all empty. Do not copy the same text between prompts.')),
+          meta.customizeKeys.map((k) => field('c-' + k, meta.customizeLabels[k], (() => { const el = h('textarea', { class: 'input', id: 'f-c-' + k, rows: 2, value: f.customize[k] || '', oninput: (e) => { f.customize[k] = e.target.value; counters['c-' + k] && (counters['c-' + k].textContent = e.target.value.length); touch(); } }); return el; })()))),
+      ),
+      h('div', { class: 'side-col' }, preview, checklist)),
+    h('div', { class: 'savebar' },
+      h('span', { class: 'hint', id: 'savehint' }, 'Ctrl or Cmd + S saves'),
+      h('button', { class: 'btn', id: 'b-draft', onclick: () => save(true) }, 'Save draft'),
+      h('button', { class: 'btn primary', id: 'b-pub', onclick: () => save(false) }, f.mode === 'edit' ? 'Save changes' : 'Publish to site data')));
+
+  // (customisation fields use their own counters; keep it simple)
+  Object.keys(counters).filter((k) => k.startsWith('c-')).forEach((k) => (counters[k].textContent = (f.customize[k.slice(2)] || '').length));
+
+  function problems() {
+    const out = [];
+    const need = (ok, msg) => ok || out.push(msg);
+    need(f.title.trim(), 'Add a title');
+    need(SLUG.test(f.slug), 'Add a valid URL slug');
+    need(f.imageData || f.existingImage, 'Upload your image (without one the site shows demo artwork)');
+    need(f.promptText.trim().length >= 80, 'Prompt text needs at least 80 characters');
+    need(f.description.trim().length >= 60, 'Description needs at least 60 characters');
+    need(f.imageAlt.trim(), 'Add alt text');
+    need(f.category, 'Choose a category');
+    need(f.style, 'Choose a style');
+    need(f.uses.length, 'Pick at least one use');
+    need(f.tags.length, 'Add at least one tag');
+    const filled = meta.customizeKeys.filter((k) => (f.customize[k] || '').trim()).length;
+    if (filled && filled < meta.customizeKeys.length) out.push('Customisation guide: fill all seven rows or clear them');
+    return out;
+  }
+  function updateSide() {
+    const p = problems();
+    const total = 10;
+    const done = Math.max(0, total - p.length);
+    const src = f.imageData || (f.existingImage ? `/api/image/${encodeURIComponent(f.slug || '')}?v=${f.imageVersion}` : '');
+    preview.replaceChildren(
+      h('h2', {}, 'Site preview'),
+      src ? h('img', { src, alt: '' }) : h('div', { class: 'ph' }, 'Image preview'),
+      h('h3', {}, f.title || 'Your title'),
+      h('div', { class: 'meta' }, [f.category && catName(f.category), f.ratio].filter(Boolean).join(' · ')),
+      h('div', { class: 'promptbox' }, f.promptText || 'Your prompt appears here.'),
+      h('button', { class: 'btn dark', style: 'width:100%', type: 'button', onclick: () => copy(f.promptText) }, 'Copy prompt'),
+      src && f._w ? h('div', { class: 'hint', style: 'margin-top:8px' }, `Image: ${f._w}×${f._h}px` + (f._w < 800 ? ' (small; 1200px wide or more looks sharper)' : '') + (Math.abs(f._w / f._h - ratioVal(f.ratio)) > 0.04 ? ` · differs from the ${f.ratio} ratio you chose` : '')) : null);
+    const serp = $('#serp');
+    if (serp) { const t = f.seoTitle || `${f.title || 'Your title'}: AI Image Prompt | ${meta.brand}`; const dsc = f.seoDescription || f.description || 'Your description appears here.'; serp.replaceChildren(h('div', { class: 'hint' }, `yoursite.com › prompts › ${f.slug || '…'}`), h('div', { style: 'font-size:17px;margin:2px 0;font-weight:500' }, t.length > 62 ? t.slice(0, 60) + '…' : t), h('div', { class: 'hint' }, dsc.length > 158 ? dsc.slice(0, 156) + '…' : dsc)); }
+    checklist.replaceChildren(h('h2', {}, 'Ready to publish?'), h('div', { class: 'bar' }, h('i', { style: `width:${Math.round((done / total) * 100)}%` })), p.length ? h('ul', { class: 'check' }, p.slice(0, 7).map((m) => h('li', {}, m)), p.length > 7 ? h('li', {}, `…and ${p.length - 7} more`) : null) : h('ul', { class: 'check' }, h('li', { class: 'done' }, 'Everything is filled in')));
+  }
+  const ratioVal = (r) => { const [a, b] = r.split(':').map(Number); return a / b; };
+  updateSide();
+  root._updateSide = updateSide;
+  return root;
+}
+
+async function save(asDraft) {
+  const f = form;
+  const btns = [$('#b-draft'), $('#b-pub')];
+  btns.forEach((b) => (b.disabled = true));
+  $('#errs').replaceChildren();
+  try {
+    const body = { ...f, asDraft, mode: undefined, slugEdited: undefined, existingImage: undefined, imageVersion: undefined, _w: undefined, _h: undefined };
+    if (asDraft && !f.id) delete body.id;
+    const out = await api('/api/prompts', { method: 'POST', body: JSON.stringify(body) });
+    dirty = false;
+    await refresh();
+    if (asDraft) { f.id = out.prompt.id; f.mode = 'draft'; toast('Draft saved'); }
+    else {
+      toast(f.mode === 'edit' ? 'Changes saved' : 'Prompt added');
+      if (out.warnings?.length) toast(out.warnings[0], false);
+      form = null; await go('library', { force: true });
+      return;
+    }
+  } catch (e) {
+    const errs = e.errors || [e.message];
+    $('#errs').append(h('div', { class: 'notice bad', role: 'alert' }, h('b', {}, asDraft ? 'Could not save the draft' : 'Not saved. Fix these first:'), h('ul', {}, errs.map((m) => h('li', {}, m)))));
+    $('#errs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } finally { btns.forEach((b) => b && (b.disabled = false)); }
+}
+document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's' && view === 'editor') { e.preventDefault(); save(false); } });
+
+// ---------- build
+function buildView() {
+  const log = h('pre', { class: 'log', hidden: true });
+  const status = h('div');
+  const btn = h('button', { class: 'btn primary', onclick: async () => {
+    btn.disabled = true; btn.textContent = 'Building…'; status.replaceChildren(); log.hidden = true;
+    try {
+      const r = await api('/api/build', { method: 'POST', body: '{}' });
+      log.hidden = false; log.textContent = r.log.trim();
+      status.append(h('div', { class: 'notice ' + (r.ok ? 'ok' : 'bad') }, r.ok ? 'Build and checks passed. The site in dist/ is up to date.' : `The ${r.step} step failed. See the log below.`));
+    } catch (e) { status.append(h('div', { class: 'notice bad' }, e.errors.join(' '))); }
+    btn.disabled = false; btn.textContent = 'Build and check site';
+  } }, 'Build and check site');
+  return h('div', {},
+    h('div', { class: 'top' }, h('div', {}, h('h1', {}, 'Publish site'), h('p', { class: 'sub' }, 'Rebuild the static site and run the link, image and metadata checks.'))),
+    h('div', { class: 'card pad' },
+      h('p', { style: 'margin-top:0' }, 'Saving a prompt updates your content files. Building turns them into the pages in ', h('code', {}, 'dist/'), '. Then deploy ', h('code', {}, 'dist/'), ' with your host (for example Cloudflare Pages or Netlify), or commit the changes if your host builds from Git.'),
+      h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px' }, btn, h('a', { class: 'btn', href: 'http://localhost:4173', target: '_blank', rel: 'noopener' }, 'Open site preview (port 4173)')),
+      h('p', { class: 'hint' }, 'The preview link works while ', h('code', {}, 'npm run dev'), ' is running in another terminal. Before the real launch, use ', h('code', {}, 'npm run build:prod'), ' so the site URL is checked.'),
+      status, log));
+}
+
+// ---------- shared image helpers
+const natural = (a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+function readAsDataUrl(file) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); }); }
+/** Reads an image file, shrinking very large files so 60+ uploads stay manageable. Returns { dataUrl, w, h, note }. */
+async function prepareImage(file) {
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) throw new Error(`${file.name}: use JPG, PNG or WebP`);
+  const raw = await readAsDataUrl(file);
+  const bmp = await createImageBitmap(file);
+  const long = Math.max(bmp.width, bmp.height);
+  if (file.size <= 4 * 1048576 && long <= 2600) { const out = { dataUrl: raw, w: bmp.width, h: bmp.height, note: '' }; bmp.close?.(); return out; }
+  const scale = Math.min(1, 2400 / long);
+  const c = document.createElement('canvas');
+  c.width = Math.round(bmp.width * scale); c.height = Math.round(bmp.height * scale);
+  c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+  const w = c.width, h = c.height; bmp.close?.();
+  let url = c.toDataURL('image/webp', 0.9);
+  if (!url.startsWith('data:image/webp')) url = c.toDataURL('image/jpeg', 0.9);
+  return { dataUrl: url, w, h, note: 'resized to fit' };
+}
+const nearestRatio = (w, h) => RATIOS.map((r) => [r, Math.abs(Math.log((w / h) / (r.split(':')[0] / r.split(':')[1])))]).sort((a, b) => a[1] - b[1])[0][0];
+const prettyName = (n) => n.replace(/\.[a-z0-9]+$/i, '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+const looksLikeFilename = (t) => !t || t.trim().length < 4 || /^(img|image|photo|dsc|screenshot|whatsapp|gemini|chatgpt|untitled|download)[\s\d_().-]*$/i.test(t.trim()) || /^[\d\s_().-]+$/.test(t.trim());
+
+// ---------- bulk upload
+let bulk = { rows: [], d: { category: '', style: '', uses: [], supportedTools: [], tags: '' }, busy: false, errs: [] };
+const eff = (r, k) => (k === 'uses' || k === 'supportedTools' ? (r[k] && r[k].length ? r[k] : bulk.d[k]) : r[k] || bulk.d[k]);
+function rowProblems(r) {
+  const out = [];
+  if (looksLikeFilename(r.title)) out.push('title');
+  if ((r.promptText || '').trim().length < 80) out.push('prompt');
+  if ((r.description || '').trim().length < 60) out.push('description');
+  if (!(r.imageAlt || '').trim()) out.push('alt text');
+  if (!eff(r, 'category')) out.push('category');
+  if (!eff(r, 'style')) out.push('style');
+  if (!eff(r, 'uses').length) out.push('“best for”');
+  if (!tagList(r).length) out.push('tags');
+  return out;
+}
+const tagList = (r) => [...new Set([...(bulk.d.tags || '').split(','), ...(r.tags || '').split(',')].map((t) => t.trim().toLowerCase()).filter(Boolean))];
+function uniqueSlug(base, taken) { let s = base || 'prompt', n = 2; while (taken.has(s)) s = `${base}-${n++}`; taken.add(s); return s; }
+function bulkItems(rows, asDraft) {
+  const taken = new Set(lib.published.map((p) => p.slug));
+  lib.drafts.forEach((d) => d.slug && taken.add(d.slug));
+  return rows.map((r) => ({ title: r.title.trim(), slug: uniqueSlug(slugify(r.title) || slugify(prettyName(r.file)), taken), promptText: r.promptText, description: r.description, imageAlt: r.imageAlt, category: eff(r, 'category'), style: eff(r, 'style'), ratio: r.ratio, uses: eff(r, 'uses'), supportedTools: eff(r, 'supportedTools'), tags: tagList(r), tested: false, featured: false, imageData: r.dataUrl }));
+}
+function bulkView() {
+  const toolMap = Object.fromEntries(Object.entries(meta.taxonomy.tools).map(([k, v]) => [k, v.name || k]));
+  const root = h('div');
+  const list = h('div', { style: 'display:grid;gap:12px' });
+  const summary = h('div', { class: 'hint', id: 'bulk-sum' });
+  const errBox = h('div', { id: 'bulk-errs' });
+  const refreshSummary = () => {
+    const ready = bulk.rows.filter((r) => !rowProblems(r).length).length;
+    summary.textContent = bulk.rows.length ? `${bulk.rows.length} images · ${ready} ready to publish · ${bulk.rows.length - ready} need more information` : '';
+    const pub = $('#bulk-pub'), dr = $('#bulk-draft');
+    if (pub) { pub.disabled = bulk.busy || !ready; pub.textContent = ready ? `Publish ${ready} ready` : 'Publish ready'; }
+    if (dr) dr.disabled = bulk.busy || !bulk.rows.length;
+    const pb = $('#bulk-paste'); if (pb) pb.disabled = !bulk.rows.length;
+    bulk.rows.forEach((r) => { const b = r._badge; if (!b) return; const p = rowProblems(r); b.className = 'badge ' + (p.length ? 'warn' : 'ok'); b.textContent = p.length ? 'Needs: ' + p.join(', ') : 'Ready'; });
+  };
+  const drawRows = () => {
+    list.replaceChildren(...bulk.rows.map((r, i) => {
+      const f = (label, key, area, ph, rows = 2) => h('div', { class: 'field', style: 'margin:0' }, h('label', {}, label), h(area ? 'textarea' : 'input', { class: 'input', rows, value: r[key] || '', placeholder: ph || '', oninput: (e) => { r[key] = e.target.value; refreshSummary(); } }));
+      r._badge = h('span', { class: 'badge' });
+      return h('div', { class: 'card pad', style: 'display:grid;grid-template-columns:120px 1fr;gap:16px' },
+        h('div', {}, h('img', { src: r.dataUrl, alt: '', style: 'width:120px;border-radius:8px;display:block' }), h('div', { class: 'hint' }, `${r.w}×${r.h}${r.note ? ' · ' + r.note : ''}`), h('div', { class: 'hint' }, r.file)),
+        h('div', { style: 'display:grid;gap:10px;min-width:0' },
+          h('div', { style: 'display:flex;justify-content:space-between;gap:8px;align-items:center' }, h('b', {}, `#${i + 1}`), r._badge, h('button', { class: 'btn sm danger', onclick: () => { bulk.rows.splice(i, 1); drawRows(); refreshSummary(); } }, 'Remove')),
+          f('Title (a real, descriptive title)', 'title', false, 'Romantic Couple Beach Walk'),
+          f('Prompt (exactly as you used it)', 'promptText', true, 'Paste the original prompt', 4),
+          f('Description (what the image shows, 60+ characters)', 'description', true, 'A warm sunset portrait of…'),
+          h('div', { class: 'grid2' }, f('Alt text', 'imageAlt', false, 'Couple walking on a beach at sunset'), f('Extra tags (comma separated)', 'tags', false, 'beach, sunset')),
+          h('div', { class: 'grid2' },
+            h('div', { class: 'field', style: 'margin:0' }, h('label', {}, 'Category for this image'), h('select', { class: 'input', onchange: (e) => { r.category = e.target.value; refreshSummary(); } }, h('option', { value: '' }, bulk.d.category ? `Same as shared (${catName(bulk.d.category)})` : 'Choose a category…'), meta.categories.map((c) => h('option', { value: c.slug, selected: r.category === c.slug }, c.name)))),
+            h('div', { class: 'field', style: 'margin:0' }, h('label', {}, 'Style for this image'), h('select', { class: 'input', onchange: (e) => { r.style = e.target.value; refreshSummary(); } }, h('option', { value: '' }, bulk.d.style ? `Same as shared (${meta.taxonomy.styles[bulk.d.style]})` : 'Choose a style…'), Object.entries(meta.taxonomy.styles).map(([k, v]) => h('option', { value: k, selected: r.style === k }, v))))),
+          h('details', {}, h('summary', { style: 'cursor:pointer;font-weight:600;font-size:14px' }, 'Best for and tools for this image (optional)'),
+            h('div', { class: 'field', style: 'margin-top:10px' }, h('div', { class: 'legend' }, 'Best for'), h('div', { class: 'choices' }, Object.entries(meta.taxonomy.uses).map(([val, label]) => h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: (r.uses || []).includes(val), onchange: (e) => { r.uses = e.target.checked ? [...(r.uses || []), val] : (r.uses || []).filter((x) => x !== val); refreshSummary(); } }), h('span', {}, label)))), h('div', { class: 'hint' }, 'Leave all unticked to use the shared choice.')),
+            h('div', { class: 'field' }, h('div', { class: 'legend' }, 'Tools used'), h('div', { class: 'choices' }, Object.entries(toolMap).map(([val, label]) => h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: (r.supportedTools || []).includes(val), onchange: (e) => { r.supportedTools = e.target.checked ? [...(r.supportedTools || []), val] : (r.supportedTools || []).filter((x) => x !== val); refreshSummary(); } }), h('span', {}, label)))), h('div', { class: 'hint' }, 'Leave all unticked to use the shared choice.'))),
+          h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center' }, h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: !!r.sel, onchange: (e) => { r.sel = e.target.checked; } }), h('span', {}, 'Select for bulk change')), h('button', { class: 'btn sm', type: 'button', onclick: () => { r.imageAlt = r.title; drawRows(); refreshSummary(); } }, 'Use title as alt text'))));
+    }));
+    refreshSummary();
+  };
+  function selectionBar() {
+    const cat = h('select', { class: 'input', 'aria-label': 'Category for selected images', style: 'max-width:240px' }, h('option', { value: '' }, 'Set category…'), meta.categories.map((c) => h('option', { value: c.slug }, c.name)));
+    const sty = h('select', { class: 'input', 'aria-label': 'Style for selected images', style: 'max-width:200px' }, h('option', { value: '' }, 'Set style…'), Object.entries(meta.taxonomy.styles).map(([k, v]) => h('option', { value: k }, v)));
+    return h('div', { class: 'card pad', style: 'margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center' },
+      h('b', {}, 'Change several at once'),
+      h('button', { class: 'btn sm', onclick: () => { const all = bulk.rows.some((r) => !r.sel); bulk.rows.forEach((r) => (r.sel = all)); drawRows(); } }, 'Select / unselect all'),
+      cat, sty,
+      h('button', { class: 'btn sm dark', onclick: () => { const rows = bulk.rows.filter((r) => r.sel); if (!rows.length) return toast('Tick “Select for bulk change” on some images first.', true); rows.forEach((r) => { if (cat.value) r.category = cat.value; if (sty.value) r.style = sty.value; r.sel = false; }); drawRows(); toast(`${rows.length} images updated`); } }, 'Apply to selected'));
+  }
+  async function addFiles(files) {
+    const arr = [...files].filter((f) => f.type.startsWith('image/')).sort((a, b) => natural(a.name, b.name));
+    if (!arr.length) return;
+    const bar = $('#bulk-load'); bar.hidden = false;
+    for (let i = 0; i < arr.length; i++) {
+      bar.textContent = `Reading images… ${i + 1} of ${arr.length}`;
+      try {
+        const im = await prepareImage(arr[i]);
+        bulk.rows.push({ file: arr[i].name, dataUrl: im.dataUrl, w: im.w, h: im.h, note: im.note, ratio: nearestRatio(im.w, im.h), title: looksLikeFilename(prettyName(arr[i].name)) ? '' : prettyName(arr[i].name), promptText: '', description: '', imageAlt: '', tags: '', category: '' });
+      } catch (e) { toast(e.message, true); }
+    }
+    bar.hidden = true; dirty = true; drawRows();
+  }
+  const drop = h('div', { class: 'drop', tabindex: 0, role: 'button', 'aria-label': 'Choose or drop many images' },
+    h('div', {}, h('b', {}, 'Drop all your AI images here'), ' or click to choose many at once'), h('div', { class: 'hint' }, 'JPG, PNG or WebP. Files are sorted by name, so image-01 comes before image-02. Very large files are shrunk to 2400px.'));
+  const file = h('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp', multiple: true, class: 'sr', tabindex: -1, onchange: (e) => { addFiles(e.target.files); e.target.value = ''; } });
+  drop.addEventListener('click', () => file.click());
+  drop.addEventListener('keydown', (e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), file.click()));
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); addFiles(e.dataTransfer.files); });
+
+  const sel = (key, label, map) => h('div', { class: 'field', style: 'margin:0' }, h('label', {}, label), h('select', { class: 'input', onchange: (e) => { bulk.d[key] = e.target.value; refreshSummary(); } }, h('option', { value: '' }, 'Choose…'), Object.entries(map).map(([k, v]) => h('option', { value: k, selected: bulk.d[key] === k }, v))));
+  const multi = (key, map) => h('div', { class: 'choices' }, Object.entries(map).map(([val, label]) => h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: bulk.d[key].includes(val), onchange: (e) => { bulk.d[key] = e.target.checked ? [...bulk.d[key], val] : bulk.d[key].filter((x) => x !== val); refreshSummary(); } }), h('span', {}, label))));
+
+  async function send(asDraft) {
+    const rows = asDraft ? bulk.rows : bulk.rows.filter((r) => !rowProblems(r).length);
+    if (!rows.length) return;
+    if (!asDraft && !(await confirmDialog(`Publish ${rows.length} prompts?`, 'They are added to your site data now. Run “Publish site” afterwards to rebuild the pages.', 'Publish'))) return;
+    bulk.busy = true; bulk.errs = []; errBox.replaceChildren(); refreshSummary();
+    const bar = $('#bulk-load'); bar.hidden = false;
+    let done = 0;
+    try {
+      for (let i = 0; i < rows.length; i += 6) {
+        const chunk = rows.slice(i, i + 6);
+        bar.textContent = `${asDraft ? 'Saving' : 'Publishing'}… ${done} of ${rows.length}`;
+        await api('/api/bulk', { method: 'POST', body: JSON.stringify({ asDraft, items: bulkItems(chunk, asDraft) }) });
+        done += chunk.length;
+        bulk.rows = bulk.rows.filter((r) => !chunk.includes(r));
+        await refresh();
+      }
+      dirty = false; toast(`${done} ${asDraft ? 'saved as drafts' : 'published'}`);
+      drawRows();
+      if (!bulk.rows.length) await go(asDraft ? 'drafts' : 'library', { force: true });
+    } catch (e) {
+      errBox.replaceChildren(h('div', { class: 'notice bad', role: 'alert' }, h('b', {}, `Stopped after ${done} of ${rows.length}. Nothing from the failing group was saved:`), h('ul', {}, (e.errors || [e.message]).map((m) => h('li', {}, m)))));
+      drawRows();
+    } finally { bulk.busy = false; bar.hidden = true; refreshSummary(); }
+  }
+  function pasteDialog() {
+    const ta = h('textarea', { class: 'input mono', style: 'min-height:260px;width:100%', placeholder: 'Prompt one…\n\n---\n\nPrompt two…' });
+    const info = h('div', { class: 'hint' }, 'Separate prompts with a line containing only ---. Without separators, a blank line starts the next prompt.');
+    const d = h('dialog', { style: 'max-width:640px;width:92vw' }, h('h2', {}, 'Paste prompts in order'), h('p', { class: 'sub' }, 'They are matched to your images from top to bottom (image 1 gets prompt 1). Text is not edited.'), ta, info,
+      h('menu', {}, h('button', { class: 'btn', onclick: () => d.close() }, 'Cancel'), h('button', { class: 'btn dark', onclick: () => {
+        const raw = ta.value.replace(/\r\n/g, '\n').trim();
+        const parts = (/^\s*-{3,}\s*$/m.test(raw) ? raw.split(/^\s*-{3,}\s*$/m) : raw.split(/\n\s*\n+/)).map((x) => x.replace(/^\s*\d+[.)]\s+/, '').trim()).filter(Boolean);
+        parts.forEach((t, i) => bulk.rows[i] && (bulk.rows[i].promptText = t));
+        d.close(); drawRows(); dirty = true;
+        toast(`${Math.min(parts.length, bulk.rows.length)} prompts matched` + (parts.length !== bulk.rows.length ? ` (you have ${parts.length} prompts and ${bulk.rows.length} images)` : ''), parts.length !== bulk.rows.length);
+      } }, 'Match to images')));
+    d.addEventListener('close', () => d.remove()); document.body.append(d); d.showModal();
+  }
+
+  root.append(
+    h('div', { class: 'top' }, h('div', {}, h('h1', {}, 'Bulk upload'), h('p', { class: 'sub' }, 'Add 60 or more AI images with their prompts in one go, then publish them together.')), h('div', { style: 'display:flex;gap:8px' }, h('button', { class: 'btn', id: 'bulk-paste', disabled: !bulk.rows.length, onclick: pasteDialog }, 'Paste prompts in order'))),
+    h('div', { class: 'notice' }, h('b', {}, 'How it works. '), '1) Drop your images. 2) Set the shared category, style and tools below. 3) Paste your prompts in order, then fill in each title, description and alt text. 4) Publish the ones marked Ready. Anything unfinished can be saved as a draft.'),
+    h('section', { class: 'card pad', style: 'margin-bottom:16px' }, h('header', {}, h('h2', {}, 'Shared settings'), h('p', { class: 'sub' }, 'Used for every image by default. You can choose a different category, style, uses and tools for any single image in its own row below.')),
+      h('div', { class: 'grid2' }, sel('category', 'Category', Object.fromEntries(meta.categories.map((c) => [c.slug, c.name]))), sel('style', 'Style', meta.taxonomy.styles)),
+      h('div', { class: 'field', style: 'margin-top:14px' }, h('div', { class: 'legend' }, 'Best for'), multi('uses', meta.taxonomy.uses)),
+      h('div', { class: 'field' }, h('div', { class: 'legend' }, 'Tools you used'), multi('supportedTools', toolMap), h('div', { class: 'hint' }, 'Only tick tools you really used.')),
+      h('div', { class: 'field' }, h('label', {}, 'Shared tags'), h('input', { class: 'input', value: bulk.d.tags, placeholder: 'couple, romantic', oninput: (e) => { bulk.d.tags = e.target.value; refreshSummary(); } }))),
+    drop, file, h('div', { class: 'hint', id: 'bulk-load', hidden: true, style: 'margin:10px 0' }), summary, errBox, selectionBar(), h('div', { style: 'margin-top:14px' }, list),
+    h('div', { class: 'savebar' }, h('button', { class: 'btn', id: 'bulk-draft', onclick: () => send(true) }, 'Save all as drafts'), h('button', { class: 'btn primary', id: 'bulk-pub', onclick: () => send(false) }, 'Publish ready')));
+  drawRows();
+  return root;
+}
+
+// ---------- guides
+let guides = [], gform = null;
+const guideBlank = () => ({ originalSlug: '', slug: '', slugEdited: false, title: '', seoTitle: '', description: '', category: '', draft: true, topLevel: false, featured: false, publishedAt: '', updatedAt: '', body: '' });
+async function guidesView() {
+  const root = h('div');
+  const { guides: gs } = await api('/api/guides'); guides = gs;
+  root.append(h('div', { class: 'top' }, h('div', {}, h('h1', {}, 'Guides'), h('p', { class: 'sub' }, 'Long-form articles that bring in search traffic. Each one gets its own page at /guides/your-slug/.')), h('button', { class: 'btn primary', onclick: () => { gform = guideBlank(); go('guide-edit', { keep: true }); } }, '+ New guide')));
+  const card = h('div', { class: 'card', style: 'overflow:auto' });
+  if (!guides.length) card.append(h('div', { class: 'empty-state' }, 'No guides yet. Write your first article.'));
+  else card.append(h('table', { class: 'table' }, h('thead', {}, h('tr', {}, h('th', {}, 'Guide'), h('th', {}, 'Status'), h('th', { class: 'hide-sm' }, 'Updated'), h('th', {}, ''))), h('tbody', {}, guides.map((g) => h('tr', {}, h('td', {}, h('div', { class: 'title' }, g.title || '(untitled)'), h('div', { class: 'meta' }, '/guides/' + g.slug + '/')), h('td', {}, g.draft ? h('span', { class: 'badge warn' }, 'Draft') : h('span', { class: 'badge ok' }, 'Published')), h('td', { class: 'hide-sm meta' }, g.updatedAt || g.publishedAt), h('td', {}, h('div', { class: 'actions' }, h('button', { class: 'btn sm', onclick: () => { gform = { ...guideBlank(), ...g, originalSlug: g.slug, slugEdited: true }; go('guide-edit', { keep: true }); } }, 'Edit'), h('button', { class: 'btn sm danger', onclick: async () => { if (await confirmDialog(`Delete "${g.title}"?`, 'A backup is kept in .admin-backups/.', 'Delete')) { await api('/api/guides/' + encodeURIComponent(g.slug), { method: 'DELETE' }); toast('Deleted'); render(); } } }, 'Delete'))))))));
+  root.append(card);
+  return root;
+}
+function guideEditor() {
+  const g = gform;
+  const addr = () => (g.topLevel ? `/${g.slug || 'slug'}/` : `/guides/${g.slug || 'slug'}/`);
+  const root = h('div');
+  const errBox = h('div');
+  const side = h('div', { class: 'side-col' });
+  const ta = h('textarea', { class: 'input mono', id: 'g-body', style: 'min-height:520px', value: g.body, placeholder: 'Write in Markdown. Use ## for sections and ### for items.', oninput: (e) => { g.body = e.target.value; dirty = true; checks(); } });
+  const wrap = (before, after = before, ph = 'text') => { const s = ta.selectionStart, e = ta.selectionEnd, sel = ta.value.slice(s, e) || ph; ta.setRangeText(before + sel + after, s, e, 'select'); g.body = ta.value; dirty = true; ta.focus(); checks(); };
+  const linePrefix = (p) => { const s = ta.selectionStart; const ls = ta.value.lastIndexOf('\n', s - 1) + 1; ta.setRangeText(p, ls, ls, 'end'); g.body = ta.value; dirty = true; ta.focus(); checks(); };
+  const tb = (label, fn, title) => h('button', { class: 'btn sm', type: 'button', title: title || label, onclick: fn }, label);
+  const inputF = (key, label, ph, hint, max) => { const c = h('span', { class: 'count' }); const el = h('input', { class: 'input', id: 'g-' + key, value: g[key] || '', placeholder: ph || '', oninput: (e) => { g[key] = e.target.value; if (key === 'title' && !g.slugEdited) { g.slug = slugify(g.title); $('#g-slug').value = g.slug; } if (key === 'slug') { g.slugEdited = true; e.target.value = g.slug = liveSlug(e.target.value); } const ad = $('#g-addr'); if (ad) ad.textContent = addr(); dirty = true; checks(); } }); if (key === 'slug') el.addEventListener('blur', () => { el.value = g.slug = slugify(el.value); const ad = $('#g-addr'); if (ad) ad.textContent = addr(); checks(); });
+    return h('div', { class: 'field' }, h('div', { class: 'row' }, h('label', { for: 'g-' + key }, label), c), el, hint ? h('div', { class: 'hint' }, hint) : null); };
+  function promptPicker() {
+    const picked = new Set();
+    let mode = 'full-prompts';
+    const q = h('input', { class: 'input', placeholder: 'Search prompts', 'aria-label': 'Search prompts' });
+    const catSel = h('select', { class: 'input', 'aria-label': 'Category filter', onchange: () => draw() }, h('option', { value: '' }, 'All categories'), meta.categories.map((c) => h('option', { value: c.slug }, c.name)));
+    const box = h('div', { style: 'max-height:300px;overflow:auto;display:grid;gap:6px;margin-top:10px' });
+    const count = h('span', { class: 'hint' });
+    const visible = () => { const t = q.value.toLowerCase(); return lib.published.filter((p) => (!catSel.value || p.category === catSel.value) && (!t || (p.title + p.slug + (p.tags || []).join(' ')).toLowerCase().includes(t))); };
+    const draw = () => { count.textContent = `${picked.size} selected`; if (!lib.published.length) { box.replaceChildren(h('div', { class: 'notice' }, 'Your library is empty. Add images and prompts first with Bulk upload, then insert them here.')); return; } box.replaceChildren(...visible().map((p) => h('label', { style: 'display:flex;gap:10px;align-items:center;padding:6px;border:1px solid var(--line);border-radius:9px;cursor:pointer' }, h('input', { type: 'checkbox', checked: picked.has(p.slug), onchange: (e) => { e.target.checked ? picked.add(p.slug) : picked.delete(p.slug); count.textContent = `${picked.size} selected`; } }), thumb(p), h('span', {}, h('div', { class: 'title' }, p.title), h('div', { class: 'meta' }, p.slug))))); };
+    q.addEventListener('input', draw); draw();
+    const modeSel = h('select', { class: 'input', 'aria-label': 'Layout', onchange: (e) => (mode = e.target.value) }, h('option', { value: 'full-prompts' }, 'Full prompts with Copy button (like PromptPin)'), h('option', { value: 'prompts' }, 'Small image cards that link to each prompt'));
+    const d = h('dialog', { style: 'max-width:600px;width:92vw' }, h('h2', {}, 'Insert prompts'), h('p', { class: 'sub' }, 'Tick the prompts to add. They appear in the order you tick them.'), modeSel,
+      h('div', { class: 'grid2', style: 'margin-top:10px' }, q, catSel),
+      h('div', { style: 'display:flex;gap:8px;align-items:center;margin-top:10px' }, h('button', { class: 'btn sm', onclick: () => { visible().forEach((p) => picked.add(p.slug)); draw(); } }, 'Select all shown'), h('button', { class: 'btn sm', onclick: () => { picked.clear(); draw(); } }, 'Clear'), count), box,
+      h('menu', {}, h('button', { class: 'btn', onclick: () => d.close() }, 'Cancel'), h('button', { class: 'btn dark', onclick: () => { if (picked.size) { const s = ta.selectionStart; ta.setRangeText(`\n\n{{${mode}: ${[...picked].join(', ')}}}\n\n`, s, s, 'end'); g.body = ta.value; dirty = true; checks(); } d.close(); } }, 'Insert')));
+    d.addEventListener('close', () => d.remove()); document.body.append(d); d.showModal();
+  }
+  function stats() {
+    const body = g.body || '';
+    let words = body.replace(/\{\{[^}]*\}\}/g, ' ').split(/\s+/).filter(Boolean).length;
+    for (const m of body.matchAll(/\{\{full-prompts:\s*([^}]+)\}\}/g)) for (const slug of m[1].split(',').map((x) => x.trim())) { const p = lib.published.find((x) => x.slug === slug); if (p) words += (p.title + ' ' + p.description + ' ' + p.promptText).split(/\s+/).length; }
+    return { words, h2: (body.match(/^##\s+\S/gm) || []).length, h3: (body.match(/^###\s+\S/gm) || []).length, internal: (body.match(/\]\(\/[^)]*\)/g) || []).length, embeds: (body.match(/\{\{(?:full-)?prompts:/g) || []).length };
+  }
+  function checks() {
+    const s = stats(), t = g.seoTitle || g.title || '', d = g.description || '';
+    const items = [
+      [g.title.trim().length >= 10, 'Title is clear (10+ characters)'],
+      [t.length >= 30 && t.length <= 60, `Search title is 30 to 60 characters (now ${t.length})`],
+      [d.length >= 120 && d.length <= 155, `Meta description is 120 to 155 characters (now ${d.length})`],
+      [/^[a-z0-9]+(-[a-z0-9]+)*$/.test(g.slug), 'URL slug is set'],
+      [s.words >= 600, `Enough depth: 600+ words (now ${s.words})`],
+      [s.h2 >= 3, `Three or more ## sections (now ${s.h2})`],
+      [s.embeds >= 1, 'Includes example prompts with images'],
+      [s.internal >= 2, `Links to two or more of your own pages (now ${s.internal})`],
+    ];
+    const done = items.filter((x) => x[0]).length;
+    const fullTitle = g.seoTitle || `${g.title || 'Your title'} | ${meta.brand}`;
+    side.replaceChildren(
+      h('div', { class: 'card pad' }, h('h2', {}, 'Google preview'), h('div', { style: 'font-size:13px;color:var(--muted);word-break:break-all' }, `yoursite.com › guides › ${g.slug || '…'}`), h('div', { style: 'color:#1a0dab;font-size:18px;line-height:1.3;margin:2px 0;' + (matchMedia('(prefers-color-scheme: dark)').matches ? 'color:#8ab4f8' : '') }, fullTitle.length > 62 ? fullTitle.slice(0, 60) + '…' : fullTitle), h('div', { style: 'font-size:13.5px;color:var(--muted)' }, d ? (d.length > 158 ? d.slice(0, 156) + '…' : d) : 'Your meta description appears here.'), h('div', { class: 'hint', style: 'margin-top:8px' }, 'Approximate. Google decides the final snippet.')),
+      h('div', { class: 'card pad' }, h('h2', {}, 'SEO checklist'), h('div', { class: 'bar' }, h('i', { style: `width:${Math.round(done / items.length * 100)}%` })), h('ul', { class: 'check' }, items.map(([ok, m]) => h('li', { class: ok ? 'done' : '' }, m))), h('div', { class: 'hint', style: 'margin-top:10px' }, 'A checklist helps you avoid mistakes. It does not guarantee rankings.')));
+  }
+  async function save(asDraft) {
+    errBox.replaceChildren(); g.draft = asDraft;
+    try {
+      const out = await api('/api/guides', { method: 'POST', body: JSON.stringify({ ...g, draft: asDraft }) });
+      dirty = false; g.originalSlug = out.slug; toast(asDraft ? 'Draft saved' : 'Guide published to site data');
+      (out.warnings || []).slice(0, 2).forEach((w) => toast(w.replace(/^guide "[^"]+": /, ''), false));
+      if (!asDraft) await go('guides', { force: true });
+    } catch (e) { errBox.append(h('div', { class: 'notice bad', role: 'alert' }, h('b', {}, 'Not saved:'), h('ul', {}, (e.errors || [e.message]).map((m) => h('li', {}, m))))); }
+  }
+  root.append(
+    h('div', { class: 'top' }, h('div', {}, h('h1', {}, g.originalSlug ? 'Edit guide' : 'New guide'), h('p', { class: 'sub' }, 'Write the article, then publish it. Rebuild the site to put it online.')), h('button', { class: 'btn', onclick: () => go('guides') }, 'Back to guides')),
+    errBox,
+    h('div', { class: 'notice' }, h('b', {}, 'Where do the images come from? '), `Guides use the images and prompts already in your library (${lib.published.length} now). To add new ones, use `, h('a', { href: '#', onclick: (e) => { e.preventDefault(); go('bulk'); } }, 'Bulk upload'), ' (many at once) or ', h('a', { href: '#', onclick: (e) => { e.preventDefault(); go('editor'); } }, 'Add prompt'), ' (one at a time). Then come back here and click “Insert prompts…”.'),
+    h('div', { class: 'editor' },
+      h('div', { class: 'sections' },
+        h('section', { class: 'card pad' }, inputF('title', 'Title (becomes the H1)', 'Couple AI Photo Prompts to Copy and Paste'), inputF('slug', 'URL slug', 'couple-ai-photo-prompts', 'Short and descriptive, for example couple-ai-photo-prompts.'),
+          h('div', { class: 'grid2' }, inputF('seoTitle', 'Search title (optional)', '', 'Shown in Google. Aim for 50 to 60 characters. Leave empty to use the title plus site name.'), h('div', { class: 'field' }, h('label', { for: 'g-cat' }, 'Related category'), h('select', { class: 'input', id: 'g-cat', onchange: (e) => { g.category = e.target.value; dirty = true; } }, h('option', { value: '' }, 'None'), meta.categories.map((c) => h('option', { value: c.slug, selected: g.category === c.slug }, c.name))))),
+          h('div', { class: 'choices', style: 'margin-bottom:14px' },
+            h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: g.topLevel, onchange: (e) => { g.topLevel = e.target.checked; dirty = true; $('#g-addr').textContent = addr(); checks(); } }), h('span', {}, 'Publish at the top level (/slug/)')),
+            h('label', { class: 'choice' }, h('input', { type: 'checkbox', checked: g.featured, onchange: (e) => { g.featured = e.target.checked; dirty = true; } }), h('span', {}, 'Show on the homepage'))),
+          h('div', { class: 'hint', style: 'margin:-6px 0 14px' }, 'Page address: ', h('b', { id: 'g-addr' }, addr())),
+          h('div', { class: 'field' }, h('label', { for: 'g-description' }, 'Meta description'), h('textarea', { class: 'input', id: 'g-description', rows: 2, value: g.description, oninput: (e) => { g.description = e.target.value; dirty = true; checks(); } }), h('div', { class: 'hint' }, 'About 120 to 155 characters. Say what the reader gets.'))),
+        h('section', { class: 'card pad' }, h('div', { style: 'display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px' }, tb('H2', () => linePrefix('## '), 'Section heading'), tb('H3', () => linePrefix('### '), 'Sub-heading'), tb('Bold', () => wrap('**')), tb('Italic', () => wrap('*')), tb('List', () => linePrefix('- ')), tb('Link', () => wrap('[', '](/prompts/)', 'link text')), tb('Insert prompts…', promptPicker)), ta, h('div', { class: 'hint' }, 'Markdown: ## section, ### item, **bold**, - list, [text](/page/). Use “Insert prompts” to add image cards.'))),
+      side),
+    h('div', { class: 'savebar' }, h('button', { class: 'btn', onclick: () => save(true) }, 'Save draft'), h('button', { class: 'btn primary', onclick: () => save(false) }, 'Publish guide')));
+  checks();
+  return root;
+}
+
+// ---------- boot
+(async function boot() {
+  try {
+    meta = await api('/api/meta');
+    $('#brand').textContent = meta.brand + ' Admin';
+    document.title = meta.brand + ' Admin';
+    await refresh();
+    await go('library', { force: true });
+  } catch (e) {
+    $('#main').append(h('div', { class: 'notice bad' }, h('b', {}, 'The admin could not start.'), h('ul', {}, (e.errors || [e.message]).map((m) => h('li', {}, m)))));
+  }
+})();
+</script>
+</body>
+</html>

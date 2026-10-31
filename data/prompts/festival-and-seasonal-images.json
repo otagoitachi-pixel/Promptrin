@@ -1,0 +1,60 @@
+[
+  {
+    "id": "pp-023",
+    "slug": "festival-of-lights-family-evening",
+    "title": "Festival of Lights Family Evening",
+    "description": "A warm family scene lit by rows of small oil lamps on a balcony ledge, with marigold garlands and soft evening colour. It is a general festival-of-lights concept for greeting cards and social posts that can be adapted to your own traditions.",
+    "promptText": "Warm candid photograph of a family of four on a home balcony at dusk, lighting small clay oil lamps along the railing, a grandmother guiding a child's hand, a father and teenage daughter smiling nearby. Rows of glowing lamps casting golden light on their faces, marigold garlands hanging along the rail, a deep indigo evening sky and soft out-of-focus lights from neighbouring buildings. Traditional festive clothing in rich jewel tones. 35mm lens, aperture f/2, warm colour palette, gentle contrast, natural skin tones, intimate and joyful atmosphere. Horizontal 3:2 composition, family grouped on the left, lamps leading across the frame.",
+    "category": "festival-and-seasonal-images",
+    "tags": ["festival", "lamps", "family", "marigold", "evening"],
+    "style": "festive",
+    "uses": ["greeting-cards", "social-media"],
+    "aspect": "landscape",
+    "ratio": "3:2",
+    "imageAlt": "Family lighting small clay lamps on a balcony at dusk with marigold garlands",
+    "supportedTools": ["chatgpt", "gemini", "firefly"],
+    "tested": false,
+    "publishedAt": "2026-10-24",
+    "featured": true,
+    "language": "en",
+    "visualNotes": "The lamps are both the subject and the light source, so faces glow naturally from below and the whole image shares one warm colour. Showing several generations in one gesture gives the scene emotion instead of just decoration.",
+    "customize": {
+      "lighting": "Add 'string lights and a faint rangoli glow on the floor' for a brighter, more festive look. For a quieter mood, use fewer lamps and a darker sky.",
+      "camera": "A 24mm lens makes the balcony and lights feel more expansive; a 85mm lens brings the faces closer.",
+      "background": "Replace the balcony with a courtyard, a rooftop or a living room. Keep a clear glowing foreground for the lamps.",
+      "wardrobe": "Describe garment colours (saffron, emerald, maroon) rather than specific regional dress for more consistent results.",
+      "mood": "Use 'quiet prayer moment' for a reflective image or 'children laughing with sparklers' for a more energetic one.",
+      "composition": "For a greeting card request 'large dark sky space at the top' so a message can be added.",
+      "aspectRatio": "3:2 for cards and banners; 4:5 for posts; 9:16 for status and story formats."
+    }
+  },
+  {
+    "id": "pp-024",
+    "slug": "cozy-winter-cabin-scene",
+    "title": "Cosy Winter Cabin Scene",
+    "description": "A snow-covered cabin at dusk with lit windows, a path of footprints and soft falling snow. The scene is built around warm and cool contrast, a favourite for winter greetings and seasonal social posts.",
+    "promptText": "Cosy winter scene of a small wooden cabin in a snowy pine forest at dusk, warm yellow light glowing from the windows, smoke curling from the chimney, a line of footprints leading to the door, soft snow falling, a string of warm lights along the porch roof. Deep blue twilight sky, snow-laden pine branches, a stack of firewood under the eaves, a red scarf hanging on the porch rail. 35mm lens, aperture f/2.8, gentle depth of field, warm-and-cool colour contrast, soft diffused light, quiet and peaceful. Horizontal 4:3 composition, cabin on the right third, footprints leading in from the lower left.",
+    "category": "festival-and-seasonal-images",
+    "tags": ["winter", "cabin", "snow", "twilight", "cosy"],
+    "style": "festive",
+    "uses": ["greeting-cards", "wall-art"],
+    "aspect": "landscape",
+    "ratio": "4:3",
+    "imageAlt": "Snow-covered wooden cabin with glowing windows and footprints at twilight",
+    "supportedTools": ["chatgpt", "gemini", "firefly", "leonardo"],
+    "tested": false,
+    "publishedAt": "2026-10-25",
+    "featured": false,
+    "language": "en",
+    "visualNotes": "Warm light against blue snow is the simplest strong colour contrast in nature. The footprints do double duty: they lead the eye to the door and quietly imply that someone has just arrived, adding a small story to a still scene.",
+    "customize": {
+      "lighting": "For a magical feel add 'aurora glow in the sky'; for a calmer look request 'overcast, soft grey twilight'.",
+      "camera": "A 50mm lens flattens the scene into a cosy postcard; an elevated drone-style view makes the cabin feel isolated and small.",
+      "background": "Replace the pines with a frozen lake shoreline or a mountain meadow. Keep one warm light as the focal point.",
+      "wardrobe": "Add a figure in a bright coat shovelling the porch or carrying firewood for scale and story.",
+      "mood": "For a morning variation use 'sunrise pink on the snow, smoke rising, fresh footprints'.",
+      "composition": "Request 'space at the top left for a greeting message' to leave an area for text.",
+      "aspectRatio": "4:3 for cards, 16:9 for banners, 9:16 for phone wallpapers."
+    }
+  }
+]

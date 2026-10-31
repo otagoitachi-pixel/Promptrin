@@ -1,0 +1,61 @@
+[
+  {
+    "id": "pp-006",
+    "slug": "romantic-couple-photography",
+    "title": "Romantic Couple Beach Walk",
+    "description": "A warm, candid couple portrait on an empty beach at sunset. The pair walk close together, laughing, with long shadows on the sand and a low sun lighting both faces from the same side. Great for anniversary posts and save-the-date concepts.",
+    "promptText": "Candid romantic photograph of a couple in their thirties walking barefoot along an empty beach at sunset, holding hands and laughing at each other, her head tilted toward his shoulder. Low golden sun to their left, warm light on both faces, long soft shadows stretching across wet sand, gentle waves catching reflected light. She wears a flowing cream dress, he wears rolled-up linen trousers and a white shirt. 50mm lens, aperture f/2.8, warm natural colours, slight sea haze, natural skin texture. Horizontal 3:2 composition, full-length, the couple on the left third with open beach and sky to the right.",
+    "category": "ai-couple-photography",
+    "tags": ["couple", "beach", "sunset", "romantic", "candid"],
+    "style": "golden-hour",
+    "uses": ["social-media", "greeting-cards"],
+    "aspect": "landscape",
+    "ratio": "3:2",
+    "imageAlt": "Couple walking hand in hand along a beach at sunset with long shadows",
+    "supportedTools": ["chatgpt", "gemini", "leonardo"],
+    "tested": false,
+    "publishedAt": "2026-10-05",
+    "featured": true,
+    "trendingRank": 4,
+    "language": "en",
+    "visualNotes": "Both people are lit by the same low sun from the same side, which is what makes the frame read as one moment. The prompt also describes where each person is looking and how their bodies lean, because interaction is what separates a couple photo from two portraits side by side.",
+    "customize": {
+      "lighting": "For a softer, pastel look use 'twenty minutes after sunset' and ask for 'cool sky, warm skin tones'. Avoid midday sun, which makes harsh shadows under the eyes.",
+      "camera": "A 24mm lens makes the beach feel vast and the couple small; an 85mm lens brings the faces closer and compresses the background.",
+      "background": "A harbour wall, a quiet pier or a coastal path all work. Keep the horizon level and the background free from crowds.",
+      "wardrobe": "Match tones rather than patterns: sand, cream and soft blue. For a formal concept, change to a suit and a long gown.",
+      "mood": "'Laughing at each other' can become 'quiet and close, foreheads almost touching' for a calmer, more intimate image.",
+      "composition": "For a vertical version ask for 'full-length, tall composition' and a lot of sky; the couple should still be on a third line.",
+      "aspectRatio": "3:2 landscape suits cards and website headers. For stories, request 9:16 and keep the couple in the lower half."
+    }
+  },
+  {
+    "id": "pp-007",
+    "slug": "rainy-evening-couple-portrait",
+    "title": "Rainy Evening Couple Portrait",
+    "description": "Two people sharing one umbrella on a wet city street in the evening, with shop lights reflected in the pavement. The mood is tender and cinematic rather than glossy, ideal for storytelling visuals and book-cover style concepts.",
+    "promptText": "Cinematic photograph of a couple in their late twenties sharing a large dark umbrella on a wet city street at dusk, standing close, his arm around her shoulder, her smiling up at him. Light rain falling, glowing shop signs and street lamps reflecting in the puddles, warm amber windows against cool blue-grey sky. She wears a camel coat and a scarf, he wears a navy overcoat. 35mm lens, aperture f/2, shallow depth of field, soft bokeh from the lights, subtle film grain. Vertical 2:3 composition, medium shot from slightly below eye level, couple in the centre-left, street stretching away behind them.",
+    "category": "ai-couple-photography",
+    "tags": ["rain", "umbrella", "city", "evening", "cinematic"],
+    "style": "moody",
+    "uses": ["storytelling", "wall-art"],
+    "aspect": "portrait",
+    "ratio": "2:3",
+    "imageAlt": "Couple under one umbrella on a wet street with glowing shop lights",
+    "supportedTools": ["chatgpt", "gemini", "midjourney"],
+    "tested": false,
+    "publishedAt": "2026-10-16",
+    "featured": false,
+    "language": "en",
+    "visualNotes": "Wet streets act as mirrors, doubling every light source and making a modest scene feel rich. The warm windows and the cool sky create a complementary colour contrast that lifts the faces out of the darkness without any harsh lighting.",
+    "customize": {
+      "lighting": "Ask for 'neon sign on the left casting a pink glow on faces' for a more stylised look, or reduce to 'only street lamps' for something quieter.",
+      "camera": "A 50mm lens gives a more natural perspective; a 24mm lens shows more of the street and makes the couple smaller within the scene.",
+      "background": "A night market, a tram stop or an old bookshop front all keep the same rainy mood. Include one bright focal point behind the pair.",
+      "wardrobe": "Strong coat colours, such as mustard or burgundy, help the pair stand out against a blue-grey street.",
+      "mood": "For a wistful tone change the smile to 'looking at each other in silence' and add 'a bus passing in the background'.",
+      "composition": "For a poster layout request 'extra empty space at the top' so a title can sit above the couple.",
+      "aspectRatio": "2:3 portrait for prints and covers. For widescreen request 16:9 and extend the street on both sides."
+    }
+  }
+]

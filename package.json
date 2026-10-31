@@ -1,0 +1,25 @@
+{
+  "name": "promptrin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static AI image prompt discovery site: JSON content in, pre-rendered HTML out. Zero required dependencies.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "build:prod": "node scripts/build.mjs --strict",
+    "verify": "node scripts/verify.mjs",
+    "test": "node scripts/test-search.mjs",
+    "check": "npm run build && npm run verify && npm run test",
+    "preview": "node scripts/dev.mjs --no-watch",
+    "admin": "node scripts/admin.mjs",
+    "build:cloudflare": "node scripts/build.mjs --strict && node scripts/verify.mjs",
+    "deploy": "npm run build:cloudflare && npx wrangler pages deploy dist --project-name promptrin"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.33.5"
+  }
+}

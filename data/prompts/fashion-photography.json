@@ -1,0 +1,61 @@
+[
+  {
+    "id": "pp-011",
+    "slug": "streetwear-fashion-portrait",
+    "title": "Streetwear Fashion Portrait",
+    "description": "A low-angle, full-length streetwear portrait against a graffiti-free concrete wall in flat daylight. Oversized silhouettes, layered textures and a confident stance carry the image, not the location.",
+    "promptText": "Full-length streetwear fashion photograph of a young man standing with a wide stance in front of a plain concrete wall, low camera angle, chin slightly raised, calm confident expression. Oversized olive utility jacket, loose cream cargo trousers, chunky white sneakers, a black beanie. Flat, even overcast daylight, crisp shadows under the shoes, subtle texture on the fabric and the wall. 28mm lens, aperture f/5.6, sharp detail throughout, slightly desaturated colour grade with a warm olive tone. Vertical 4:5 composition, subject centred, feet near the bottom edge, a strip of sky visible above.",
+    "category": "fashion-photography",
+    "tags": ["streetwear", "full-length", "low angle", "oversized", "urban"],
+    "style": "editorial",
+    "uses": ["advertising", "social-media"],
+    "aspect": "portrait",
+    "ratio": "4:5",
+    "imageAlt": "Man in an olive utility jacket and cream cargo trousers posing against a concrete wall",
+    "supportedTools": ["chatgpt", "gemini", "midjourney"],
+    "tested": false,
+    "publishedAt": "2026-10-08",
+    "featured": true,
+    "trendingRank": 6,
+    "language": "en",
+    "visualNotes": "A low camera and a wide lens exaggerate leg length and give the clothes presence, which is why streetwear campaigns lean on this angle. Flat light keeps colour accurate and lets the garment textures show without distracting shadows.",
+    "customize": {
+      "lighting": "For a punchier campaign use 'hard late-afternoon sun from the right with long shadows on the wall'.",
+      "camera": "Use 35mm for less distortion. A lower angle feels more heroic; a straight-on angle feels more like a lookbook.",
+      "background": "A painted brick wall, an empty car park or a metal shutter each change the attitude. Keep the background texture simple.",
+      "wardrobe": "Change the olive set to a monochrome black outfit or a pastel co-ord. Describe fabrics (nylon, denim, fleece) for more accurate rendering.",
+      "mood": "For a more playful frame, change to 'mid-stride, looking away, one hand in pocket'.",
+      "composition": "For a poster layout, request a lot of headroom and a centred figure so text can sit above him.",
+      "aspectRatio": "4:5 feeds, 2:3 lookbook pages, 9:16 stories. Request full-length framing for each."
+    }
+  },
+  {
+    "id": "pp-012",
+    "slug": "black-and-white-editorial-photography",
+    "title": "Black-and-White Editorial Photography",
+    "description": "A graphic monochrome fashion image: a model in a structured coat against a bright seamless backdrop, with strong contrast and a sculptural pose. It is intended for portfolios and magazine-style layouts.",
+    "promptText": "High-contrast black-and-white editorial fashion photograph of a woman with a sleek bob haircut wearing an oversized structured wool coat with a sharp collar, posed with one arm raised and her head turned in profile, sculptural, elegant pose. Hard directional studio light from the upper right creating clean, crisp shadows on the backdrop, bright white seamless background. 85mm lens, aperture f/8, deep blacks, bright whites, rich mid-tones, fine grain, no colour. Vertical 4:5 composition, three-quarter length, strong diagonal line from the raised arm, generous white space on the left.",
+    "category": "fashion-photography",
+    "tags": ["black and white", "monochrome", "editorial", "high contrast", "studio"],
+    "style": "editorial",
+    "uses": ["portfolio", "wall-art"],
+    "aspect": "portrait",
+    "ratio": "4:5",
+    "imageAlt": "Black-and-white fashion photograph of a woman in a structured coat in profile",
+    "supportedTools": ["chatgpt", "gemini", "firefly", "midjourney"],
+    "tested": false,
+    "publishedAt": "2026-10-14",
+    "featured": true,
+    "language": "en",
+    "visualNotes": "Removing colour makes shape and light do all the work. The hard light and bright backdrop create clean silhouettes, while a diagonal line (the raised arm) gives the image the movement that a plain standing pose would lack.",
+    "customize": {
+      "lighting": "For a softer, magazine-beauty feel, replace 'hard directional' with 'large softbox, gentle shadows'.",
+      "camera": "A 50mm lens widens the frame for full-length looks; a 135mm lens suits tight beauty crops.",
+      "background": "Dark backgrounds (charcoal paper) turn the image into a low-key, dramatic version while keeping the same pose.",
+      "wardrobe": "A satin gown, tailored suit or knit dress will render very differently in monochrome. Describe fabric texture for best contrast.",
+      "mood": "Use 'cool, distant' for a fashion-house feel or 'playful, mid-laugh' for a lifestyle editorial.",
+      "composition": "Request 'cropped tight, face and collar only' for a graphic beauty crop, or 'full-length, small figure in large white space' for a minimalist poster.",
+      "aspectRatio": "4:5 for feeds, 2:3 for print layouts. Mention that the final image should be monochrome to avoid unwanted colour."
+    }
+  }
+]

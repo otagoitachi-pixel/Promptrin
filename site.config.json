@@ -1,0 +1,24 @@
+{
+  "brand": {
+    "name": "Promptrin",
+    "tagline": "Curated AI image prompts",
+    "description": "Discover creative AI image prompts by category, copy them in one click and adapt them to your own ideas."
+  },
+  "siteUrl": "https://promptrin.com",
+  "language": "en",
+  "locale": "en_US",
+  "pageSize": 24,
+  "homepage": {
+    "featuredCount": 8,
+    "trendingCount": 6,
+    "recentCount": 6,
+    "libraryCount": 24
+  },
+  "legal": {
+    "updated": "2026-10-28"
+  },
+  "_notes": {
+    "overrides": "SITE_URL, CONTACT_EMAIL, CONTACT_FORM_ACTION, ADSENSE_CLIENT_ID, ADSENSE_SLOT_HOME, ADSENSE_SLOT_CATEGORY, ADSENSE_SLOT_PROMPT and SOCIAL_* are read from the environment (or a .env file). See .env.example.",
+    "rename": "Change brand.name here to rename the whole site. Every page reads it from this file."
+  }
+}

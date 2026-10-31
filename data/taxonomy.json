@@ -1,0 +1,34 @@
+{
+  "styles": {
+    "cinematic": "Cinematic",
+    "editorial": "Editorial",
+    "natural-light": "Natural light",
+    "golden-hour": "Golden hour",
+    "studio": "Studio",
+    "film-look": "Film look",
+    "minimalist": "Minimalist",
+    "moody": "Moody",
+    "illustration": "Illustration",
+    "documentary": "Documentary",
+    "festive": "Festive"
+  },
+  "uses": {
+    "profile-picture": "Profile picture",
+    "social-media": "Social media",
+    "professional-branding": "Professional branding",
+    "portfolio": "Portfolio",
+    "product-listing": "Product listing",
+    "advertising": "Advertising",
+    "wall-art": "Wall art",
+    "greeting-cards": "Greeting cards",
+    "storytelling": "Storytelling"
+  },
+  "tools": {
+    "chatgpt": { "name": "ChatGPT", "url": "https://chatgpt.com/" },
+    "gemini": { "name": "Google Gemini", "url": "https://gemini.google.com/" },
+    "firefly": { "name": "Adobe Firefly", "url": "https://firefly.adobe.com/" },
+    "midjourney": { "name": "Midjourney", "url": "https://www.midjourney.com/" },
+    "leonardo": { "name": "Leonardo.Ai", "url": "https://leonardo.ai/" },
+    "copilot": { "name": "Microsoft Copilot", "url": "https://copilot.microsoft.com/" }
+  }
+}

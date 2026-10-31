@@ -1,0 +1,60 @@
+[
+  {
+    "id": "pp-016",
+    "slug": "anime-inspired-illustration",
+    "title": "Anime-Inspired Rooftop Illustration",
+    "description": "An original anime-inspired scene of a girl on a rooftop at dusk, with clean linework, flat cel shading and a layered sky. It is a starting point for wallpapers, covers and character concept art, with no existing characters involved.",
+    "promptText": "Original anime-inspired illustration of a teenage girl with a short silver bob and a long red scarf standing on a rooftop at dusk, scarf blowing in the wind, looking at a distant city skyline. Clean linework, flat cel shading with soft gradient shadows, large expressive eyes, detailed layered clouds in a sky that moves from deep violet to warm orange. Distant buildings with tiny lit windows, a water tower and antenna in the foreground. Painterly background, crisp character, gentle atmospheric perspective. Wide 16:9 composition, character on the right third, large open sky on the left.",
+    "category": "anime-and-illustration",
+    "tags": ["anime", "illustration", "rooftop", "dusk", "wallpaper"],
+    "style": "illustration",
+    "uses": ["wall-art", "storytelling"],
+    "aspect": "landscape",
+    "ratio": "16:9",
+    "imageAlt": "Illustrated girl with a red scarf on a rooftop looking at a skyline at dusk",
+    "supportedTools": ["chatgpt", "gemini", "leonardo", "midjourney"],
+    "tested": false,
+    "publishedAt": "2026-10-06",
+    "featured": true,
+    "language": "en",
+    "visualNotes": "Illustration prompts need a clear split between character and background: crisp linework for the figure, softer painted forms for the sky. The red scarf is a deliberate colour accent, and its motion shows wind without extra description.",
+    "customize": {
+      "lighting": "Change the sky to 'night with a large pale moon and city glow' for a calmer scene, or 'bright morning haze' for an optimistic one.",
+      "camera": "Add 'low angle looking up at the character' for a heroic feel, or 'high angle from behind' for a more reflective frame.",
+      "background": "A train platform, a seaside road or a school balcony each give a different story. Keep the sky detailed; it carries the emotion.",
+      "wardrobe": "Changing the scarf colour is the quickest way to shift the palette. Add a jacket or a school-style uniform for a different tone.",
+      "mood": "Replace 'looking at a distant skyline' with 'holding a paper plane' for a more playful narrative.",
+      "composition": "For a phone wallpaper, request '9:16 vertical, character in the lower third, tall sky above'.",
+      "aspectRatio": "16:9 for desktop wallpapers and video thumbnails. State the ratio and 'no text, no watermark' for cleaner output."
+    }
+  },
+  {
+    "id": "pp-017",
+    "slug": "watercolor-storybook-illustration",
+    "title": "Watercolour Storybook Illustration",
+    "description": "A soft, hand-painted children's book scene of a fox reading under a mushroom canopy, with visible paper grain, loose washes and a gentle colour palette. Suited to greeting cards, nursery art and storytelling projects.",
+    "promptText": "Watercolour storybook illustration of a small red fox sitting under a giant mushroom canopy in a quiet forest, reading a tiny open book by the light of a glowing lantern, a few fireflies drifting nearby. Loose wet-on-wet washes, delicate ink outlines, visible watercolour paper texture, soft blooms of colour at the edges, a palette of warm ochre, moss green and dusty blue. Cosy, whimsical, gentle atmosphere. Square 1:1 composition, fox in the lower centre, a vignette with unpainted white paper around the edges.",
+    "category": "anime-and-illustration",
+    "tags": ["watercolour", "storybook", "fox", "children", "whimsical"],
+    "style": "illustration",
+    "uses": ["greeting-cards", "wall-art"],
+    "aspect": "square",
+    "ratio": "1:1",
+    "imageAlt": "Watercolour illustration of a fox reading under a mushroom with a glowing lantern",
+    "supportedTools": ["chatgpt", "gemini", "firefly", "leonardo"],
+    "tested": false,
+    "publishedAt": "2026-10-15",
+    "featured": false,
+    "language": "en",
+    "visualNotes": "The vignette (unpainted white paper at the edges) is a classic children's-book device: it keeps the scene contained and lets text sit in the white space. Naming the medium, the washes and the paper texture steers the result away from a digital look.",
+    "customize": {
+      "lighting": "Change the lantern to 'moonlight through the leaves' for a quieter, bluer scene, or add 'sunbeams between trees' for a daytime variation.",
+      "camera": "Ask for 'bird's-eye view looking down on the mushroom' for a map-like composition, or 'close-up of the fox's face' for a character study.",
+      "background": "A snowy pine forest, a pond with lily pads or a tiny village among roots would reuse the same watercolour approach.",
+      "wardrobe": "Give the fox a scarf, a tiny satchel or round glasses to add personality without breaking the simple palette.",
+      "mood": "Replace 'cosy' with 'adventurous, setting out at dawn' to change the story while keeping the look.",
+      "composition": "For a greeting card, request 'large empty paper area at the top for a message'.",
+      "aspectRatio": "1:1 for social posts and prints. For books, 4:3 landscape or 3:4 portrait both work well."
+    }
+  }
+]
