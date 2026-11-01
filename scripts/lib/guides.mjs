@@ -25,134 +25,17 @@ import { ROOT } from './config.mjs';
 import { esc, formatDate, trimText, fitTitle } from './util.mjs';
 import { ICON, imgTag, breadcrumbs, gallery, adSlot, renderPage } from './layout.mjs';
 import { breadcrumbLd } from './seo.mjs';
+import { parseFrontMatter, renderMarkdown, validateGuideFiles } from './shared.mjs';
 
 const GUIDES_DIR = path.join(ROOT, 'content/guides');
-const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const ISO = /^\d{4}-\d{2}-\d{2}$/;
-const RESERVED = new Set(['prompts', 'categories', 'search', 'trending', 'new', 'guides', 'about', 'contact', 'privacy-policy', 'terms-of-service', 'disclaimer', 'content-guidelines', 'assets', 'images', 'admin', '404']);
-
-export function parseFrontMatter(raw) {
-  const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/.exec(raw);
-  if (!m) return { meta: {}, body: raw, hasFront: false };
-  const meta = {};
-  for (const line of m[1].split(/\r?\n/)) {
-    const kv = /^([A-Za-z][\w-]*):\s*(.*)$/.exec(line);
-    if (kv) meta[kv[1]] = kv[2].trim().replace(/^["']|["']$/g, '');
-  }
-  return { meta, body: m[2], hasFront: true };
-}
-
-const slugify = (s) => s.toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'section';
-
-function safeUrl(u) {
-  const url = u.trim();
-  return /^(https?:\/\/|\/(?!\/)|#)/.test(url) ? url : '';
-}
-
-function inline(text) {
-  let s = esc(text);
-  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
-  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (all, label, url) => {
-    const href = safeUrl(url.replace(/&amp;/g, '&'));
-    if (!href) return label;
-    const external = /^https?:/.test(href);
-    return `<a href="${esc(href)}"${external ? ' rel="noopener noreferrer"' : ''}>${label}</a>`;
-  });
-  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
-  return s;
-}
-
-/** Minimal, safe Markdown renderer. Returns { html, headings: [{id,text}], words, promptSlugs }. */
-export function renderMarkdown(body, { renderPrompts } = {}) {
-  const lines = body.replace(/\r\n/g, '\n').split('\n');
-  const out = [];
-  const headings = [];
-  const used = new Set();
-  const promptSlugs = [];
-  let words = 0;
-  let i = 0;
-  const idFor = (text) => {
-    let id = slugify(text), n = 2;
-    while (used.has(id)) id = `${slugify(text)}-${n++}`;
-    used.add(id);
-    return id;
-  };
-  while (i < lines.length) {
-    const line = lines[i];
-    if (!line.trim()) { i++; continue; }
-    let m;
-    if ((m = /^(#{2,3})\s+(.+?)\s*#*$/.exec(line))) {
-      const level = m[1].length;
-      const id = idFor(m[2]);
-      if (level === 2) headings.push({ id, text: m[2] });
-      out.push(`<h${level} id="${id}">${inline(m[2])}</h${level}>`);
-      words += m[2].split(/\s+/).length;
-      i++;
-    } else if ((m = /^\{\{(prompts|full-prompts):\s*([^}]+)\}\}\s*$/.exec(line))) {
-      const slugs = m[2].split(',').map((x) => x.trim()).filter(Boolean);
-      promptSlugs.push(...slugs);
-      out.push(renderPrompts ? renderPrompts(slugs, m[1]) : '');
-      i++;
-    } else if (/^>\s?/.test(line)) {
-      const buf = [];
-      while (i < lines.length && /^>\s?/.test(lines[i])) buf.push(lines[i++].replace(/^>\s?/, ''));
-      words += buf.join(' ').split(/\s+/).length;
-      out.push(`<blockquote><p>${inline(buf.join(' '))}</p></blockquote>`);
-    } else if (/^[-*]\s+/.test(line)) {
-      const items = [];
-      while (i < lines.length && /^[-*]\s+/.test(lines[i])) items.push(lines[i++].replace(/^[-*]\s+/, ''));
-      words += items.join(' ').split(/\s+/).length;
-      out.push(`<ul>${items.map((t) => `<li>${inline(t)}</li>`).join('')}</ul>`);
-    } else if (/^\d+[.)]\s+/.test(line)) {
-      const items = [];
-      while (i < lines.length && /^\d+[.)]\s+/.test(lines[i])) items.push(lines[i++].replace(/^\d+[.)]\s+/, ''));
-      words += items.join(' ').split(/\s+/).length;
-      out.push(`<ol>${items.map((t) => `<li>${inline(t)}</li>`).join('')}</ol>`);
-    } else if (/^---+\s*$/.test(line)) {
-      out.push('<hr>');
-      i++;
-    } else {
-      const buf = [];
-      while (i < lines.length && lines[i].trim() && !/^(#{2,3}\s|>|[-*]\s|\d+[.)]\s|\{\{(?:full-)?prompts:|---+\s*$)/.test(lines[i])) buf.push(lines[i++]);
-      words += buf.join(' ').split(/\s+/).length;
-      out.push(`<p>${inline(buf.join(' '))}</p>`);
-    }
-  }
-  return { html: out.join('\n'), headings, words, promptSlugs };
-}
+export { parseFrontMatter, renderMarkdown };
 
 /** Loads and validates every guide. Throws a readable error list for bad files. */
 export function loadGuides(data) {
   if (!fs.existsSync(GUIDES_DIR)) return { guides: [], warnings: [] };
-  const errors = [];
-  const warnings = [];
-  const guides = [];
-  const bySlug = new Map(data.prompts.map((p) => [p.slug, p]));
-  for (const f of fs.readdirSync(GUIDES_DIR).filter((x) => x.endsWith('.md')).sort()) {
-    const slug = f.replace(/\.md$/, '');
-    const where = `guide "${slug}"`;
-    const { meta, body, hasFront } = parseFrontMatter(fs.readFileSync(path.join(GUIDES_DIR, f), 'utf8'));
-    if (!SLUG.test(slug)) errors.push(`${where}: file name must be lowercase words with hyphens`);
-    if (!hasFront) { errors.push(`${where}: missing front matter (--- block) at the top`); continue; }
-    for (const k of ['title', 'description', 'publishedAt']) if (!meta[k]) errors.push(`${where}: missing "${k}"`);
-    for (const k of ['publishedAt', 'updatedAt']) if (meta[k] && !ISO.test(meta[k])) errors.push(`${where}: ${k} must be YYYY-MM-DD`);
-    if (meta.category && !data.catBySlug.has(meta.category)) errors.push(`${where}: unknown category "${meta.category}"`);
-    if (meta.draft === 'true') { warnings.push(`${where}: marked draft, not built.`); continue; }
-    const embedded = [];
-    const r = renderMarkdown(body, { renderPrompts: (slugs, kind) => { if (kind === 'full-prompts') embedded.push(...slugs); return ''; } });
-    // Prompts shown in full on the page count as page content.
-    for (const s of embedded) { const p = bySlug.get(s); if (p) r.words += `${p.title} ${p.description} ${p.promptText}`.split(/\s+/).length; }
-    for (const s of r.promptSlugs) if (!bySlug.has(s)) errors.push(`${where}: {{prompts}} refers to unknown prompt "${s}"`);
-    if (meta.description && (meta.description.length < 70 || meta.description.length > 175)) warnings.push(`${where}: description is ${meta.description.length} characters; aim for about 120-155.`);
-    if (r.words < 300) warnings.push(`${where}: only about ${r.words} words. Thin pages rarely help; add useful detail.`);
-    if (!r.headings.length) warnings.push(`${where}: no "##" headings, so no table of contents.`);
-    const topLevel = meta.topLevel === 'true';
-    if (topLevel && RESERVED.has(slug)) errors.push(`${where}: "${slug}" is a reserved address; choose another slug or turn off top-level.`);
-    if (topLevel && data.prompts.some((p) => p.slug === slug)) warnings.push(`${where}: shares a name with a prompt (that is fine, they live at different addresses).`);
-    guides.push({ slug, ...meta, topLevel, featured: meta.featured === 'true', body, promptSlugs: r.promptSlugs, url: topLevel ? `/${slug}/` : `/guides/${slug}/`, words: r.words });
-  }
-  const seen = new Set();
-  for (const g of guides) { if (seen.has(g.title)) errors.push(`guide "${g.slug}": duplicate title`); seen.add(g.title); }
+  const files = fs.readdirSync(GUIDES_DIR).filter((x) => x.endsWith('.md')).sort()
+    .map((f) => ({ slug: f.replace(/\.md$/, ''), text: fs.readFileSync(path.join(GUIDES_DIR, f), 'utf8') }));
+  const { guides, warnings, errors } = validateGuideFiles(files, data);
   if (errors.length) throw new Error('Content validation failed:\n  - ' + errors.join('\n  - '));
   return { guides, warnings };
 }

@@ -20,8 +20,9 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { ROOT, loadConfig } from './lib/config.mjs';
-import { loadData, CUSTOMIZE_KEYS, CUSTOMIZE_LABELS } from './lib/data.mjs';
-import { loadGuides, parseFrontMatter, renderMarkdown } from './lib/guides.mjs';
+import { loadData } from './lib/data.mjs';
+import { loadGuides } from './lib/guides.mjs';
+import { CUSTOMIZE_KEYS, CUSTOMIZE_LABELS, SLUG, IMAGE_EXTS, UserError, today, str, sniffImage as sniffBytes, nextIdFrom, normalisePrompt, renderMarkdown, parseGuideFile, serializeGuide } from './lib/shared.mjs';
 
 const PORT = Number(process.env.ADMIN_PORT) || 4174;
 const HOST = '127.0.0.1';
@@ -32,9 +33,6 @@ const PROMPTS_DIR = path.join(ROOT, 'data/prompts');
 const DRAFTS_DIR = path.join(ROOT, 'data/drafts');
 const IMAGES_DIR = path.join(ROOT, 'images/originals');
 const BACKUP_DIR = path.join(ROOT, '.admin-backups');
-const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const IMAGE_EXTS = ['avif', 'webp', 'jpg', 'jpeg', 'png'];
-const today = () => new Date().toISOString().slice(0, 10);
 
 const readJson = (f) => JSON.parse(fs.readFileSync(f, 'utf8'));
 const writeJson = (f, v) => {
@@ -44,12 +42,7 @@ const writeJson = (f, v) => {
 
 // ---------------------------------------------------------------- helpers
 
-function sniffImage(buf) {
-  if (buf.length > 12 && buf.subarray(0, 3).equals(Buffer.from([0xff, 0xd8, 0xff]))) return 'jpg';
-  if (buf.length > 8 && buf.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return 'png';
-  if (buf.length > 12 && buf.subarray(0, 4).toString() === 'RIFF' && buf.subarray(8, 12).toString() === 'WEBP') return 'webp';
-  return null;
-}
+const sniffImage = (buf) => sniffBytes(new Uint8Array(buf));
 
 function decodeDataUrl(dataUrl) {
   const m = /^data:image\/(?:jpeg|png|webp);base64,([A-Za-z0-9+/=\s]+)$/.exec(dataUrl || '');
@@ -59,14 +52,6 @@ function decodeDataUrl(dataUrl) {
   const ext = sniffImage(buf);
   if (!ext) throw new UserError(['That file is not a valid JPG, PNG or WebP image.']);
   return { buf, ext };
-}
-
-class UserError extends Error {
-  constructor(errors, status = 422) {
-    super(errors.join('; '));
-    this.errors = errors;
-    this.status = status;
-  }
 }
 
 function findImage(slug) {
@@ -106,60 +91,10 @@ function readDrafts() {
 }
 
 function nextId() {
-  const nums = [...readAllPrompts(), ...readDrafts()].map((p) => Number(/^pp-(\d+)$/.exec(p.id || '')?.[1] || 0));
-  return `pp-${String(Math.max(0, ...nums) + 1).padStart(3, '0')}`;
+  return nextIdFrom([...readAllPrompts(), ...readDrafts()]);
 }
 
-function aspectFor(ratio) {
-  const [w, h] = String(ratio).split(':').map(Number);
-  return w > h ? 'landscape' : w < h ? 'portrait' : 'square';
-}
-
-const list = (v) => (Array.isArray(v) ? v : []).map((x) => String(x).trim()).filter(Boolean);
-const str = (v) => (typeof v === 'string' ? v.trim() : '');
-
-/** Keeps only known fields and fixes types, so the JSON files stay clean. */
-function normalise(input, previous) {
-  const customize = {};
-  for (const k of CUSTOMIZE_KEYS) customize[k] = str(input.customize?.[k]);
-  const hasCustomize = CUSTOMIZE_KEYS.some((k) => customize[k]);
-  const ratio = str(input.ratio);
-  const p = {
-    ...(previous || {}),
-    id: previous?.id || str(input.id) || nextId(),
-    slug: str(input.slug),
-    title: str(input.title),
-    description: str(input.description),
-    promptText: str(input.promptText).replace(/\r\n/g, '\n'),
-    category: str(input.category),
-    tags: [...new Set(list(input.tags).map((t) => t.toLowerCase()))],
-    style: str(input.style),
-    uses: list(input.uses),
-    aspect: /^\d{1,2}:\d{1,2}$/.test(ratio) ? aspectFor(ratio) : '',
-    ratio,
-    imageAlt: str(input.imageAlt),
-    supportedTools: list(input.supportedTools),
-    tested: input.tested === true,
-    publishedAt: previous?.publishedAt || str(input.publishedAt) || today(),
-    featured: input.featured === true,
-    language: str(input.language) || previous?.language || 'en',
-    visualNotes: str(input.visualNotes),
-    seoTitle: str(input.seoTitle),
-    seoDescription: str(input.seoDescription),
-    customize: hasCustomize ? customize : undefined,
-  };
-  if (previous && p.publishedAt !== today()) p.updatedAt = today();
-  delete p._file;
-  delete p._draft;
-  delete p.imageData;
-  // Stable key order so diffs stay readable.
-  const order = ['id', 'slug', 'title', 'description', 'promptText', 'category', 'tags', 'style', 'uses', 'aspect', 'ratio', 'imageAlt', 'supportedTools', 'tested', 'publishedAt', 'updatedAt', 'featured', 'trendingRank', 'language', 'seoTitle', 'seoDescription', 'visualNotes', 'customize'];
-  const sorted = {};
-  for (const k of order) if (p[k] !== undefined && p[k] !== '') sorted[k] = p[k];
-  for (const k of Object.keys(p)) if (!(k in sorted) && p[k] !== undefined) sorted[k] = p[k];
-  if (p.featured === false) delete sorted.featured;
-  return sorted;
-}
+const normalise = (input, previous) => normalisePrompt(input, previous, { id: nextId() });
 
 /** Runs the build's own validation. Returns a list of error strings (empty when fine). */
 function validateContent() {
@@ -308,14 +243,10 @@ function publishBatch(items) {
 
 // ---- guides (content/guides/*.md)
 const GUIDES_DIR = path.join(ROOT, 'content/guides');
-const oneLine = (v) => String(v ?? '').replace(/[\r\n]+/g, ' ').trim();
 
 function readGuides() {
   if (!fs.existsSync(GUIDES_DIR)) return [];
-  return fs.readdirSync(GUIDES_DIR).filter((f) => f.endsWith('.md')).sort().map((f) => {
-    const { meta, body } = parseFrontMatter(fs.readFileSync(path.join(GUIDES_DIR, f), 'utf8'));
-    return { slug: f.replace(/\.md$/, ''), title: meta.title || '', seoTitle: meta.seoTitle || '', description: meta.description || '', publishedAt: meta.publishedAt || '', updatedAt: meta.updatedAt || '', category: meta.category || '', draft: meta.draft === 'true', topLevel: meta.topLevel === 'true', featured: meta.featured === 'true', body: body.trim() };
-  });
+  return fs.readdirSync(GUIDES_DIR).filter((f) => f.endsWith('.md')).sort().map((f) => parseGuideFile(f.replace(/\.md$/, ''), fs.readFileSync(path.join(GUIDES_DIR, f), 'utf8')));
 }
 
 function saveGuide(input) {
@@ -325,15 +256,7 @@ function saveGuide(input) {
   const file = path.join(GUIDES_DIR, `${slug}.md`);
   if (fs.existsSync(file) && originalSlug !== slug) throw new UserError([`A guide with the slug "${slug}" already exists.`]);
   const existing = originalSlug ? readGuides().find((g) => g.slug === originalSlug) : null;
-  const meta = [
-    ['title', oneLine(input.title)], ['seoTitle', oneLine(input.seoTitle)], ['description', oneLine(input.description)],
-    ['publishedAt', oneLine(input.publishedAt) || existing?.publishedAt || today()],
-    ['updatedAt', existing && !input.draft ? today() : oneLine(input.updatedAt)], ['category', oneLine(input.category)],
-    ['topLevel', input.topLevel ? 'true' : ''], ['featured', input.featured ? 'true' : ''],
-    ['draft', input.draft ? 'true' : ''],
-  ];
-  if (meta[4][1] && meta[4][1] === meta[3][1]) meta[4][1] = '';
-  const text = `---\n${meta.filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join('\n')}\n---\n${String(input.body || '').replace(/\r\n/g, '\n').trim()}\n`;
+  const text = serializeGuide(input, existing);
   const oldFile = originalSlug ? path.join(GUIDES_DIR, `${originalSlug}.md`) : null;
   const before = new Map([[file, fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null], ...(oldFile && oldFile !== file ? [[oldFile, fs.existsSync(oldFile) ? fs.readFileSync(oldFile, 'utf8') : null]] : [])]);
   const rollback = () => { for (const [f, c] of before) c === null ? fs.rmSync(f, { force: true }) : fs.writeFileSync(f, c); };
@@ -412,7 +335,7 @@ function library() {
 // ---------------------------------------------------------------- server
 
 const MIME = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', avif: 'image/avif' };
-const INDEX = () => fs.readFileSync(path.join(ROOT, 'admin/index.html'));
+const INDEX = () => fs.readFileSync(path.join(ROOT, 'admin/panel.html'));
 
 function send(res, status, body, type = 'application/json; charset=utf-8', extra = {}) {
   res.writeHead(status, {

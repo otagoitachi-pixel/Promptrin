@@ -101,22 +101,17 @@ with sync_playwright() as p:
     check("prompt text is selected for manual copy on failure", len(page.evaluate("getSelection().toString()")) > 100)
     ctx.close()
 
-    # ---------- 3. mobile navigation ----------
+    # ---------- 3. mobile navigation (links stay visible, no hamburger) ----------
     print("Mobile navigation")
     ctx = browser.new_context(viewport={"width": 375, "height": 800})
     page = ctx.new_page()
     page.goto(BASE + "/", wait_until="networkidle")
-    check("menu is collapsed by default on mobile", not page.is_visible("#site-nav"))
-    page.click("[data-nav-toggle]")
-    check("menu opens", page.is_visible("#site-nav") and page.get_attribute("[data-nav-toggle]", "aria-expanded") == "true")
-    check("menu shows primary links", all(page.is_visible(f"#site-nav >> text={t}") for t in ["Explore", "Trending", "New Prompts"]))
-    page.click("[data-menu-toggle]")
-    check("categories submenu expands", page.is_visible("#cat-menu a >> nth=0") and page.locator("#cat-menu a").count() == 10)
-    page.keyboard.press("Escape")
-    page.wait_for_timeout(100)
-    check("Escape closes the category submenu", not page.is_visible("#cat-menu"))
-    page.keyboard.press("Escape")
-    check("menu closed after Escape", not page.is_visible("#site-nav"))
+    check("main links are visible on a phone without opening a menu", all(page.is_visible(f"#site-nav >> text={t}") for t in ["Explore", "Categories", "Trending", "New Prompts"]))
+    check("hamburger button is hidden on phones", not page.is_visible("[data-nav-toggle]"))
+    check("category submenu does not cover the page on phones", not page.is_visible("#cat-menu"))
+    check("search icon is available on phones", page.is_visible("a.mobile-search"))
+    hero = page.evaluate("(() => { const c = document.querySelector('.hero-copy h1').getBoundingClientRect(); const g = document.querySelector('.hero-gallery').getBoundingClientRect(); return g.left >= c.right - 1; })()")
+    check("hero shows headline beside example images on a phone", hero)
     ctx.close()
 
     # ---------- 4. search + filters ----------

@@ -13,11 +13,11 @@
     "build:prod": "node scripts/build.mjs --strict",
     "verify": "node scripts/verify.mjs",
     "test": "node scripts/test-search.mjs",
-    "check": "npm run build && npm run verify && npm run test",
+    "check": "npm run build && npm run verify && npm run test && node scripts/build-worker-assets.mjs && node scripts/test-worker.mjs",
     "preview": "node scripts/dev.mjs --no-watch",
     "admin": "node scripts/admin.mjs",
-    "build:cloudflare": "node scripts/build.mjs --strict && node scripts/verify.mjs",
-    "deploy": "npm run build:cloudflare && npx wrangler pages deploy dist --project-name promptrin"
+    "build:cloudflare": "node scripts/build.mjs --strict && node scripts/verify.mjs && node scripts/build-worker-assets.mjs",
+    "deploy": "npm run build:cloudflare && npx wrangler deploy"
   },
   "optionalDependencies": {
     "sharp": "^0.33.5"

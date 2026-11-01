@@ -217,3 +217,64 @@ scripts and can conflict with the strict Content-Security-Policy. Email Address 
 
 After the first deploy: add the custom domain under Pages, Custom domains; then add the site to Google
 Search Console and submit `/sitemap.xml`.
+
+### If Cloudflare gave you a `*.workers.dev` address (Workers, not Pages)
+
+Cloudflare now often creates a Worker with static assets instead of a Pages project. That works too, using
+`wrangler.jsonc` in this project (it publishes only `dist/`). In the Worker's Settings, Build:
+
+| Setting | Value |
+|---|---|
+| Build command | `npm run build:cloudflare` |
+| Deploy command | `npx wrangler deploy` |
+| Root directory | leave empty |
+
+If you see the admin screen ("Prompt Admin ... could not start") on your live address, the wrong folder was
+published. Make sure the build command above runs, so `dist/` exists and is what gets deployed. The admin
+panel is a local tool and works only with `npm run admin` on your own computer.
+
+## Online admin (private, on Cloudflare)
+
+The same admin panel also runs online at `https://YOUR-SITE/admin`, so you can add prompts, bulk-upload images and edit guides from a phone browser. Saving **commits to your GitHub repository**, and Cloudflare rebuilds the site by itself (about 1 to 3 minutes). Nothing is stored in Cloudflare.
+
+How it is locked down:
+
+- Switched off until configured. If a secret is missing or weak, `/admin` shows a notice and the API answers 503.
+- Password (14+ characters), checked in constant time, with a delay after every wrong try.
+- Optional authenticator-app code (`TOTP_SECRET`). Strongly recommended: a leaked password is then not enough.
+- Sessions are signed, `HttpOnly`, `Secure`, `SameSite=Strict`, last 8 hours, and are cancelled by changing `SESSION_SECRET` or the password.
+- Every change also needs a custom header and a same-site `Origin` (CSRF protection). The page is `noindex` and cannot be framed.
+- The GitHub token only needs access to this one repository.
+- Every save is validated with the same rules as the build. Invalid data (or a guide that would break) is refused and nothing is committed.
+- Drafts are local-only (use `npm run admin` on a computer for drafts).
+
+### One-time setup
+
+1. **Deploy as in the Workers section above** (build command `npm run build:cloudflare`, deploy command `npx wrangler deploy`). `wrangler.jsonc` already contains the Worker and the `/admin` routes.
+2. **GitHub token**: GitHub, Settings, Developer settings, Personal access tokens, *Fine-grained tokens*, Generate. Repository access: *Only select repositories*, pick this one. Permissions, Repository: **Contents: Read and write** (nothing else). Set a one-year expiry and copy the token.
+3. **Make secrets** on any device with Node: `node scripts/make-secrets.mjs`. It prints `SESSION_SECRET` and `TOTP_SECRET`. Add the TOTP key to an authenticator app (Google Authenticator, Authy, 2FAS) with "Enter a setup key".
+4. **Add them in Cloudflare**: Workers & Pages, your Worker, Settings, Variables and Secrets, Add. Use type **Secret** for each:
+
+   | Name | Value |
+   |---|---|
+   | `ADMIN_PASSWORD` | your own password, 14+ characters |
+   | `SESSION_SECRET` | from step 3 (32+ characters) |
+   | `TOTP_SECRET` | from step 3 (optional but recommended) |
+   | `GITHUB_TOKEN` | the token from step 2 |
+   | `GITHUB_REPO` | `your-username/your-repository` |
+   | `GITHUB_BRANCH` | only if your branch is not `main` |
+
+   Then deploy once more (or "Retry build") so the Worker restarts with the secrets.
+5. Open `/admin` and sign in.
+
+### Extra protection (free, recommended)
+
+- **Cloudflare Access**: Zero Trust, Access, Applications, Add, Self-hosted. Application domain = your site, path `admin`; add a second one for path `api/admin`. Policy: Allow, emails = only your email, with One-time PIN. Nobody else even reaches the login page.
+- **Rate limit**: your domain, Security, WAF, Rate limiting rules. If URI Path equals `/api/admin/login`, limit 5 requests per 1 minute per IP, action Block.
+
+### Limits to know
+
+- Workers Free allows 10 ms of CPU per request. Saving a few prompts is far below that; if Cloudflare ever shows error 1102 on a large bulk save, publish smaller batches or use the Workers Paid plan ($5/month).
+- Up to 100 prompts per bulk save and 30 guides in the online admin. Images are limited to 10 MB each (the panel shrinks big photos for you).
+- Edits made at the same moment from two places: the second save is refused with "reload and try again" instead of overwriting.
+- Run `npm run check` after changing the admin code; it includes 28 Worker tests against a fake GitHub.

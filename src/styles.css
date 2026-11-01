@@ -404,3 +404,49 @@ a.page-link:hover { border-color: var(--text); }
 .guide-link{margin:0 0 14px}
 
 .logo-text{text-transform:uppercase}
+
+/* ---------- compact phone and tablet layout (under 900px) ----------
+   Same composition as desktop, sized for touch: every main link is visible without opening a menu,
+   and the hero shows the headline beside example images so prompts appear on the first screen. */
+.mobile-search { display: none; }
+@media (max-width: 899px) {
+  .mobile-search { display: inline-flex; }
+  .site-header { position: static; }
+  .header-inner { min-height: 56px; }
+  .nav-toggle, .js .nav-toggle { display: none; }
+  .site-nav, .js .site-nav { display: block; padding: 0 0 10px; }
+  .nav-list { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 2px 0; }
+  .nav-list::-webkit-scrollbar { display: none; }
+  .nav-list > li { flex: none; }
+  .nav-list > li > a { min-height: 40px; padding: 0 14px; border: 1px solid var(--border-strong); border-radius: 999px; font-size: .9rem; white-space: nowrap; }
+  .nav-list a[aria-current="page"] { background: var(--text); color: var(--bg); border-color: var(--text); box-shadow: none; }
+  .menu-toggle, .js .menu-toggle, .submenu, .has-menu.is-open .submenu { display: none !important; }
+  .nav-search { display: none; }
+
+  .hero { padding: 18px 0 28px; }
+  .hero-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 4px 14px; align-items: start; }
+  .hero-grid { grid-template-rows: auto auto 1fr auto auto auto; }
+  .hero-copy { display: contents; }
+  .hero-copy > * { grid-column: 1; }
+  .hero-gallery { grid-column: 2; grid-row: 1 / span 3; grid-template-columns: 1fr; align-self: start; }
+  .hero-col.is-offset { display: none; }
+  .hero-copy .eyebrow { font-size: .66rem; margin-bottom: 8px; }
+  .hero-copy .display { font-size: clamp(1.7rem, 8.4vw, 3rem); line-height: 1.04; }
+  .hero-copy .lede { font-size: .92rem; line-height: 1.5; margin-top: 10px; }
+  .hero-search, .hero-cta, .try { grid-column: 1 / -1; }
+  .hero-search { margin-top: 16px; }
+  .hero-search .btn span { display: none; }
+  .hero-cta { margin-top: 14px; }
+  .try { margin-top: 14px; }
+  .tile-cat { display: none; }
+  .tile-cap { padding: 28px 8px 8px; }
+  .tile-title { font-size: .78rem; }
+  .t1, .t2 { aspect-ratio: 4 / 5; }
+}
+@media (min-width: 700px) and (max-width: 899px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 28px; }
+  .hero-gallery { grid-template-columns: 1fr 1fr; }
+  .hero-col.is-offset { display: grid; margin-top: 28px; }
+  .tile-cat { display: block; }
+  .tile-title { font-size: .92rem; }
+}

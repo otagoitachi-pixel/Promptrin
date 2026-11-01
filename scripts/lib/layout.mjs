@@ -146,6 +146,7 @@ function header(ctx, currentPath) {
 <div class="container header-inner">
 <a class="logo" href="/" aria-label="${brand} home"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text">${brand}</span></a>
 <div class="header-actions">
+<a class="icon-btn mobile-search" href="/search/" aria-label="Search prompts">${ICON.search}</a>
 <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme"><span class="when-light">${ICON.moon}</span><span class="when-dark">${ICON.sun}</span></button>
 <button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">${ICON.menu}</button>
 </div>
