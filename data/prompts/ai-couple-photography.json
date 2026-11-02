@@ -6,13 +6,26 @@
     "description": "A warm, candid couple portrait on an empty beach at sunset. The pair walk close together, laughing, with long shadows on the sand and a low sun lighting both faces from the same side. Great for anniversary posts and save-the-date concepts.",
     "promptText": "Candid romantic photograph of a couple in their thirties walking barefoot along an empty beach at sunset, holding hands and laughing at each other, her head tilted toward his shoulder. Low golden sun to their left, warm light on both faces, long soft shadows stretching across wet sand, gentle waves catching reflected light. She wears a flowing cream dress, he wears rolled-up linen trousers and a white shirt. 50mm lens, aperture f/2.8, warm natural colours, slight sea haze, natural skin texture. Horizontal 3:2 composition, full-length, the couple on the left third with open beach and sky to the right.",
     "category": "ai-couple-photography",
-    "tags": ["couple", "beach", "sunset", "romantic", "candid"],
+    "tags": [
+      "couple",
+      "beach",
+      "sunset",
+      "romantic",
+      "candid"
+    ],
     "style": "golden-hour",
-    "uses": ["social-media", "greeting-cards"],
+    "uses": [
+      "social-media",
+      "greeting-cards"
+    ],
     "aspect": "landscape",
     "ratio": "3:2",
     "imageAlt": "Couple walking hand in hand along a beach at sunset with long shadows",
-    "supportedTools": ["chatgpt", "gemini", "leonardo"],
+    "supportedTools": [
+      "chatgpt",
+      "gemini",
+      "leonardo"
+    ],
     "tested": false,
     "publishedAt": "2026-10-05",
     "featured": true,
@@ -36,13 +49,26 @@
     "description": "Two people sharing one umbrella on a wet city street in the evening, with shop lights reflected in the pavement. The mood is tender and cinematic rather than glossy, ideal for storytelling visuals and book-cover style concepts.",
     "promptText": "Cinematic photograph of a couple in their late twenties sharing a large dark umbrella on a wet city street at dusk, standing close, his arm around her shoulder, her smiling up at him. Light rain falling, glowing shop signs and street lamps reflecting in the puddles, warm amber windows against cool blue-grey sky. She wears a camel coat and a scarf, he wears a navy overcoat. 35mm lens, aperture f/2, shallow depth of field, soft bokeh from the lights, subtle film grain. Vertical 2:3 composition, medium shot from slightly below eye level, couple in the centre-left, street stretching away behind them.",
     "category": "ai-couple-photography",
-    "tags": ["rain", "umbrella", "city", "evening", "cinematic"],
+    "tags": [
+      "rain",
+      "umbrella",
+      "city",
+      "evening",
+      "cinematic"
+    ],
     "style": "moody",
-    "uses": ["storytelling", "wall-art"],
+    "uses": [
+      "storytelling",
+      "wall-art"
+    ],
     "aspect": "portrait",
     "ratio": "2:3",
     "imageAlt": "Couple under one umbrella on a wet street with glowing shop lights",
-    "supportedTools": ["chatgpt", "gemini", "midjourney"],
+    "supportedTools": [
+      "chatgpt",
+      "gemini",
+      "midjourney"
+    ],
     "tested": false,
     "publishedAt": "2026-10-16",
     "featured": false,
@@ -57,5 +83,150 @@
       "composition": "For a poster layout request 'extra empty space at the top' so a title can sit above the couple.",
       "aspectRatio": "2:3 portrait for prints and covers. For widescreen request 16:9 and extend the street on both sides."
     }
+  },
+  {
+    "id": "pp-025",
+    "slug": "romantic-couple-beach",
+    "title": "Romantic Couple Beach",
+    "description": "A beautiful ultra-realistic AI-generated romantic couple photograph featuring a fictional adult couple walking barefoot hand in hand along a tropical beach at sunset. The man wears a beige linen shirt with white trousers, while the woman wears an elegant flowing dusty-rose maxi dress. Their loving smiles, gentle ocean waves, golden sunlight, and dreamy reflections create a cinematic romantic atmosphere. Perfect inspiration for AI couple photography, beach photoshoots, romantic poses, and sunset photography.",
+    "promptText": "@Create image\nCreate an ultra-photorealistic romantic photograph of a fictional adult couple walking barefoot hand in hand along a beautiful tropical beach during golden hour. The man wears a relaxed beige linen shirt with white trousers, while the woman wears an elegant flowing dusty-rose maxi dress. They exchange loving smiles while looking into each other's eyes. Gentle ocean waves touch their feet, the warm orange sun sits near the horizon, and golden reflections shimmer across the wet sand. The woman's hair moves naturally in the sea breeze. Professional couple photography, realistic facial features, natural skin texture, intricate clothing details, cinematic warm colour grading, soft golden backlighting, shallow depth of field, DSLR photography, 85mm portrait lens, exceptionally detailed, 4K quality, vertical 4:5 composition.",
+    "category": "ai-couple-photography",
+    "tags": [
+      "ai couple prompt",
+      "romantic couple photoshoot",
+      "beach couple photography",
+      "sunset couple poses",
+      "ai couple photo",
+      "tropical beach photography",
+      "golden hour photography",
+      "romantic beach pictures",
+      "couple walking on beach",
+      "aesthetic couple photos",
+      "cinematic couple portrait",
+      "ai generated couple",
+      "beach sunset photoshoot",
+      "romantic photography ideas",
+      "dreamy couple poses",
+      "barefoot beach couple",
+      "love photography"
+    ],
+    "style": "golden-hour",
+    "uses": [
+      "social-media",
+      "storytelling",
+      "profile-picture",
+      "wall-art"
+    ],
+    "aspect": "portrait",
+    "ratio": "4:5",
+    "imageAlt": "Romantic couple walking barefoot hand in hand on a tropical beach at sunset, wearing a beige linen shirt and dusty rose maxi dress.",
+    "supportedTools": [
+      "chatgpt",
+      "gemini"
+    ],
+    "tested": false,
+    "publishedAt": "2026-11-02",
+    "language": "en",
+    "visualNotes": "",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  {
+    "id": "pp-026",
+    "slug": "romantic-couple-photoshoot-in-a-luxury-garden",
+    "title": "Romantic Couple Photoshoot in a Luxury Garden",
+    "description": "A stunning photorealistic AI-generated romantic couple portrait captured in a beautiful luxury garden during golden hour. The elegant woman wears a flowing lavender floral maxi dress with delicate embroidered details, while the man wears a sophisticated light grey suit paired with a white shirt. Standing arm in arm, they exchange loving gazes surrounded by blooming pink roses, lush green hedges, and a charming garden setting. Warm golden sunlight, natural expressions, and cinematic photography create a dreamy and timeless romantic atmosphere. Perfect inspiration for romantic couple photoshoots, pre-wedding photography, engagement portraits, and elegant outdoor couple poses.",
+    "promptText": "Create an ultra-photorealistic romantic portrait of a fictional adult couple standing arm in arm in an elegant luxury European garden during golden hour. The woman wears a stunning flowing lavender-purple maxi gown featuring delicate floral embroidery, sheer puff sleeves, an elegant square neckline, and intricate fabric details. Her hair is styled in a beautiful loose updo with delicate floral accessories. She holds a bouquet of fresh pink and white roses.\n\nThe man wears a perfectly tailored light grey luxury suit with a crisp white shirt and a white pocket square. He has naturally styled dark wavy hair and a sophisticated appearance.\n\nThe couple stands close together, looking lovingly into each other's eyes with genuine smiles. Surround them with beautifully maintained green hedges, blooming pink roses, white flowers, classical stone garden architecture, and an elegant fountain in the background.\n\nWarm golden sunlight filters through the trees, creating beautiful natural highlights and soft romantic shadows. Capture realistic facial features, natural skin texture, intricate embroidery, detailed clothing textures, and authentic expressions.\n\nProfessional luxury wedding photography, romantic editorial photography, cinematic warm colour grading, shallow depth of field, soft golden backlighting, DSLR camera, 85mm portrait lens, exceptionally detailed, 4K quality, vertical 4:5 composition.",
+    "category": "ai-couple-photography",
+    "tags": [
+      "ai couple prompt",
+      "romantic couple photoshoot",
+      "luxury garden photoshoot",
+      "pre wedding couple photography",
+      "lavender dress photoshoot",
+      "grey suit outfit",
+      "elegant couple poses",
+      "ai couple photography",
+      "garden couple portrait",
+      "golden hour couple photos",
+      "engagement photoshoot ideas",
+      "floral gown photography",
+      "romantic outdoor photography",
+      "cinematic couple portrait",
+      "wedding photoshoot inspiration",
+      "aesthetic couple pictures",
+      "luxury couple photography",
+      "ai generated couple image",
+      "garden wedding photography"
+    ],
+    "style": "cinematic",
+    "uses": [
+      "social-media",
+      "storytelling",
+      "profile-picture",
+      "wall-art"
+    ],
+    "aspect": "portrait",
+    "ratio": "4:5",
+    "imageAlt": "Romantic couple posing together in a luxury flower garden, woman wearing a lavender floral gown and man wearing a light grey suit.",
+    "supportedTools": [
+      "chatgpt",
+      "gemini"
+    ],
+    "tested": false,
+    "publishedAt": "2026-11-02",
+    "language": "en",
+    "visualNotes": "",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  {
+    "id": "pp-027",
+    "slug": "romantic-rainy-night-couple-photography-under-umbrella",
+    "title": "Romantic Rainy Night Couple Photography Under Umbrella",
+    "description": "A beautiful cinematic romantic couple photograph featuring a fictional adult couple sharing an intimate moment under a black umbrella on a rainy city street at night. The woman wears an elegant camel-brown winter coat with a deep red scarf, while the man wears a sophisticated black wool overcoat with a charcoal grey scarf. They exchange loving smiles as raindrops fall around them. Warm golden streetlights, glowing shop windows, wet reflective pavement, and beautiful city bokeh create a dreamy romantic atmosphere. Perfect inspiration for rainy day couple photoshoots, winter couple photography, romantic poses, and cinematic AI-generated portraits",
+    "promptText": "Create an ultra-photorealistic romantic photograph of a fictional adult couple standing closely together under a large elegant black umbrella on a beautiful city street during a rainy winter evening.\n\nThe woman wears a sophisticated camel-brown long wool coat over a black outfit, paired with a rich burgundy-red knitted scarf. She carries a small elegant black leather handbag over her shoulder. Her long dark hair falls naturally around her shoulders.\n\nThe man wears a luxurious dark charcoal-black wool overcoat over a black turtleneck sweater, paired with a textured grey winter scarf. He holds the umbrella above them with one hand while keeping his other hand comfortably in his coat pocket.\n\nThey stand close together, exchanging warm loving smiles and looking deeply into each other's eyes. The woman gently holds his arm, creating a natural and intimate romantic pose.\n\nBeautiful raindrops are visible falling around them and collecting on the umbrella. The wet pavement reflects warm golden streetlights, glowing shop windows, and blurred colorful city lights. Elegant European-style architecture, softly illuminated storefronts, and subtle decorative flowers create a dreamy urban background.\n\nCapture realistic facial features, natural skin texture, individual hair strands, detailed wool fabrics, realistic raindrops, and authentic romantic expressions.\n\nProfessional luxury couple photography, cinematic rainy-night atmosphere, warm golden and cool blue colour contrast, beautiful background bokeh, shallow depth of field, soft cinematic lighting, DSLR photography, 85mm portrait lens, exceptionally detailed, 4K quality, vertical 4:5 composition.",
+    "category": "ai-couple-photography",
+    "tags": [
+      "ai couple prompt",
+      "romantic rainy day couple",
+      "rainy night photography",
+      "couple under umbrella",
+      "winter couple photoshoot",
+      "cinematic couple photography",
+      "romantic street photography",
+      "ai couple portrait",
+      "rainy street aesthetic",
+      "umbrella couple poses",
+      "winter fashion photography",
+      "golden city lights",
+      "romantic night photoshoot",
+      "cozy couple pictures",
+      "aesthetic rainy photography",
+      "black umbrella photoshoot",
+      "cinematic love story",
+      "ai generated couple",
+      "winter outfit inspiration"
+    ],
+    "style": "cinematic",
+    "uses": [
+      "social-media",
+      "storytelling",
+      "profile-picture",
+      "wall-art"
+    ],
+    "aspect": "portrait",
+    "ratio": "4:5",
+    "imageAlt": "Romantic couple standing under a black umbrella on a rainy city street at night wearing elegant winter coats and scarves.",
+    "supportedTools": [
+      "chatgpt",
+      "gemini"
+    ],
+    "tested": false,
+    "publishedAt": "2026-11-02",
+    "language": "en",
+    "visualNotes": "",
+    "seoTitle": "",
+    "seoDescription": ""
   }
 ]
