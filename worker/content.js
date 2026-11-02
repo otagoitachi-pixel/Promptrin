@@ -43,7 +43,7 @@ export async function loadGuideTexts(repo, state) {
   return state.guideTexts;
 }
 
-const flatten = (files) => [...files.entries()].sort(([a], [b]) => a.localeCompare(b)).flatMap(([name, list]) => list.map((p) => ({ ...p, _file: name })));
+export const flatten = (files) => [...files.entries()].sort(([a], [b]) => a.localeCompare(b)).flatMap(([name, list]) => list.map((p) => ({ ...p, _file: name })));
 const cloneFiles = (files) => new Map([...files].map(([k, v]) => [k, v.map((p) => ({ ...p }))]));
 const imageOf = (state, slug) => state.images.get(slug)?.[0] || null;
 
@@ -202,3 +202,10 @@ export function inspectDataUrl(dataUrl) {
 }
 
 export { IMAGE_EXTS };
+
+/** Publishes new prompts in one commit using an already-loaded state (used by the GPT API). */
+export async function bulkPublishLoaded(repo, state, ctx, items) {
+  const out = bulkPublish(state, ctx, items);
+  const saved = await repo.commit({ parent: state.head.commit, parentTree: state.head.tree, changes: out.changes, message: out.message });
+  return { result: out.result, commit: saved.commit, commitUrl: saved.url };
+}

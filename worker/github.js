@@ -13,8 +13,10 @@ export function createRepo(env, fetchImpl = (...a) => fetch(...a)) {
   const branch = env.GITHUB_BRANCH || 'main';
   const base = `https://api.github.com/repos/${repo}`;
 
+  let calls = 0;
   async function gh(path, { method = 'GET', body, raw = false } = {}) {
     let res;
+    calls++;
     try {
       res = await fetchImpl(base + path, {
         method,
@@ -41,6 +43,8 @@ export function createRepo(env, fetchImpl = (...a) => fetch(...a)) {
   return {
     repo,
     branch,
+    /** Number of GitHub requests made so far (Workers allow 50 subrequests per request on the free plan). */
+    get calls() { return calls; },
     /** Latest commit and its tree. */
     async head() {
       const ref = await gh(`/git/ref/heads/${encodeURIComponent(branch)}`);

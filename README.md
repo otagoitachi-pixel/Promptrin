@@ -278,3 +278,11 @@ How it is locked down:
 - Up to 100 prompts per bulk save and 30 guides in the online admin. Images are limited to 10 MB each (the panel shrinks big photos for you).
 - Edits made at the same moment from two places: the second save is refused with "reload and try again" instead of overwriting.
 - Run `npm run check` after changing the admin code; it includes 28 Worker tests against a fake GitHub.
+
+## Publishing from ChatGPT (GPT Action API)
+
+`/api/gpt/*` lets a Custom GPT publish prompts with images, SEO fields and keywords straight to the site (one GitHub
+commit per request, all-or-nothing, with duplicate and keyword-overlap checks). It uses its own secret
+(`PROMPTRIN_GPT_SECRET`) and never the admin login. Full setup, the GPT instructions, the OpenAPI file, limits and
+environment variables: **[docs/GPT-ACTION-SETUP.md](docs/GPT-ACTION-SETUP.md)**. The OpenAPI 3.1 file is served at
+`/api/gpt/openapi.json` and saved in `docs/promptrin-gpt-openapi.json`. `npm run check` runs the 30 API tests.

@@ -1,6 +1,6 @@
 {
   // Cloudflare Workers: the static site (dist/) plus the private online admin (worker/index.js).
-  // Only /admin, /admin/* and /api/admin/* run Worker code; every other page is served as plain static files.
+  // Only /admin, /admin/*, /api/admin/* and /api/gpt/* run Worker code; every other page is served as plain static files.
   "name": "promptrin",
   "main": "worker/index.js",
   "compatibility_date": "2025-10-01",
@@ -9,6 +9,6 @@
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/admin", "/admin/*", "/api/admin/*"]
+    "run_worker_first": ["/admin", "/admin/*", "/api/admin/*", "/api/gpt/*"]
   }
 }

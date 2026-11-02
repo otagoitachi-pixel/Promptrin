@@ -18,7 +18,7 @@ export function fakeGitHub() {
   const putTree = (m) => { const s = sha(Buffer.from(JSON.stringify([...m].sort()))); trees.set(s, new Map(m)); return s; };
   const putCommit = (tree, message) => { const s = sha(Buffer.from(tree + message + Math.random())); commits.set(s, { tree, message }); return s; };
   let head = putCommit(putTree(files), 'initial');
-  const state = { calls: 0, failCommitOnce: false, onBeforeRef: null };
+  const state = { calls: 0, failCommitOnce: false, onBeforeRef: null, blobCalls: 0, failBlobOn: 0 };
   const json = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: { 'Content-Type': 'application/json' } });
   async function fetchImpl(url, opts = {}) {
     state.calls++;
@@ -33,6 +33,7 @@ export function fakeGitHub() {
     if ((r = /^\/git\/commits\/(\w+)$/.exec(p)) && m === 'GET') { const c = commits.get(r[1]); return json({ tree: { sha: c.tree }, message: c.message, committer: { date: '2026-11-01T00:00:00Z' } }); }
     if ((r = /^\/git\/trees\/(\w+)$/.exec(p)) && m === 'GET') return json({ truncated: false, tree: [...trees.get(r[1])].map(([path, sha]) => ({ path, sha, type: 'blob' })) });
     if ((r = /^\/git\/blobs\/(\w+)$/.exec(p)) && m === 'GET') return new Response(blobs.get(r[1]));
+    if (p === '/git/blobs' && m === 'POST' && ++state.blobCalls === state.failBlobOn) return json({ message: 'boom ghp_fake' }, 500);
     if (p === '/git/blobs' && m === 'POST') return json({ sha: putBlob(Buffer.from(body.content, 'base64')) }, 201);
     if (p === '/git/trees' && m === 'POST') {
       const t = new Map(trees.get(body.base_tree));

@@ -10,6 +10,7 @@ import { CUSTOMIZE_KEYS, CUSTOMIZE_LABELS, UserError, renderMarkdown } from '../
 import { configProblems, checkPassword, verifyTotp, makeSession, readSession, sessionCookie, clearCookie } from './auth.js';
 import { createRepo } from './github.js';
 import * as content from './content.js';
+import { handleGpt } from './gpt.js';
 
 const MAX_BODY = 16 * 1024 * 1024;
 const MIME = { jpg: 'image/jpeg', png: 'image/png', webp: 'image/webp', avif: 'image/avif', jpeg: 'image/jpeg' };
@@ -82,6 +83,8 @@ async function mutate(repo, { guides = false, lazyGuides = null }, op) {
 export async function handle(request, env, deps = {}) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
+  // The ChatGPT publishing API has its own secret and never uses the admin login.
+  if (path.startsWith('/api/gpt/')) return handleGpt(request, env, deps);
   const isPage = path === '/admin';
   const isApi = path.startsWith('/api/admin/');
   if (!isPage && !isApi && !path.startsWith('/admin/')) {

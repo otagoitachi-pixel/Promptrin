@@ -13,7 +13,7 @@
     "build:prod": "node scripts/build.mjs --strict",
     "verify": "node scripts/verify.mjs",
     "test": "node scripts/test-search.mjs",
-    "check": "npm run build && npm run verify && npm run test && node scripts/build-worker-assets.mjs && node scripts/test-worker.mjs",
+    "check": "npm run build && npm run verify && npm run test && node scripts/build-worker-assets.mjs && node scripts/test-worker.mjs && node scripts/test-gpt.mjs",
     "preview": "node scripts/dev.mjs --no-watch",
     "admin": "node scripts/admin.mjs",
     "build:cloudflare": "node scripts/build.mjs --strict && node scripts/verify.mjs && node scripts/build-worker-assets.mjs",

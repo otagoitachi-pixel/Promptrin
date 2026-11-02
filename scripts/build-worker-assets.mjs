@@ -8,6 +8,7 @@ const read = (rel) => fs.readFileSync(path.join(ROOT, rel), 'utf8');
 const json = (rel, fallback) => (fs.existsSync(path.join(ROOT, rel)) ? JSON.parse(read(rel)) : fallback);
 const snapshot = {
   brand: loadConfig().brand?.name || 'Promptrin',
+  language: loadConfig().language || 'en',
   taxonomy: json('data/taxonomy.json', {}),
   categories: json('data/categories.json', []),
   redirects: json('data/redirects.json', []),
@@ -18,3 +19,9 @@ export const SNAPSHOT = ${JSON.stringify(snapshot)};
 `;
 fs.writeFileSync(path.join(ROOT, 'worker/generated.js'), out);
 console.log(`worker/generated.js written (${(out.length / 1024).toFixed(0)} KB)`);
+
+// A reviewable copy of the OpenAPI file for the ChatGPT Action.
+const { openapi } = await import('../worker/openapi.js?' + Date.now());
+fs.mkdirSync(path.join(ROOT, 'docs'), { recursive: true });
+fs.writeFileSync(path.join(ROOT, 'docs/promptrin-gpt-openapi.json'), JSON.stringify(openapi('https://YOUR-SITE.workers.dev'), null, 2) + '\n');
+console.log('docs/promptrin-gpt-openapi.json written');

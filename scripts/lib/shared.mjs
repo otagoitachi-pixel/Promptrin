@@ -79,6 +79,12 @@ export function normalisePrompt(input, previous, { id, today: day = today() } = 
     seoTitle: str(input.seoTitle),
     seoDescription: str(input.seoDescription),
     customize: hasCustomize ? customize : undefined,
+    // Optional keyword-planning fields (used by the GPT publishing API and duplicate checks).
+    // Kept untouched when an edit form does not send them.
+    primaryKeyword: input.primaryKeyword !== undefined ? str(input.primaryKeyword) : previous?.primaryKeyword,
+    secondaryKeywords: input.secondaryKeywords !== undefined ? [...new Set(list(input.secondaryKeywords))] : previous?.secondaryKeywords,
+    searchIntent: input.searchIntent !== undefined ? str(input.searchIntent) : previous?.searchIntent,
+    targetCountry: input.targetCountry !== undefined ? str(input.targetCountry) : previous?.targetCountry,
   };
   if (previous && p.publishedAt !== day) p.updatedAt = day;
   delete p._file;
@@ -86,11 +92,12 @@ export function normalisePrompt(input, previous, { id, today: day = today() } = 
   delete p.imageData;
   delete p.imageBlob;
   // Stable key order so diffs stay readable.
-  const order = ['id', 'slug', 'title', 'description', 'promptText', 'category', 'tags', 'style', 'uses', 'aspect', 'ratio', 'imageAlt', 'supportedTools', 'tested', 'publishedAt', 'updatedAt', 'featured', 'trendingRank', 'language', 'seoTitle', 'seoDescription', 'visualNotes', 'customize'];
+  const order = ['id', 'slug', 'title', 'description', 'promptText', 'category', 'tags', 'style', 'uses', 'aspect', 'ratio', 'imageAlt', 'supportedTools', 'tested', 'publishedAt', 'updatedAt', 'featured', 'trendingRank', 'language', 'primaryKeyword', 'secondaryKeywords', 'searchIntent', 'targetCountry', 'seoTitle', 'seoDescription', 'visualNotes', 'customize'];
   const sorted = {};
   for (const k of order) if (p[k] !== undefined && p[k] !== '') sorted[k] = p[k];
   for (const k of Object.keys(p)) if (!(k in sorted) && p[k] !== undefined) sorted[k] = p[k];
   if (p.featured === false) delete sorted.featured;
+  if (Array.isArray(sorted.secondaryKeywords) && !sorted.secondaryKeywords.length) delete sorted.secondaryKeywords;
   return sorted;
 }
 
@@ -154,6 +161,7 @@ export function validateContent({ taxonomy, categories, prompts, redirects = [],
       const missing = CUSTOMIZE_KEYS.filter((k) => !p.customize[k]);
       if (missing.length && missing.length < CUSTOMIZE_KEYS.length) warnings.push(`${where}: customize guide is incomplete (missing ${missing.join(', ')}); it will be hidden.`);
     }
+    if (p.secondaryKeywords !== undefined && (!Array.isArray(p.secondaryKeywords) || p.secondaryKeywords.some((k) => typeof k !== 'string'))) errors.push(`${where}: "secondaryKeywords" must be an array of strings`);
     if (p.seoTitle && p.seoTitle.length > 70) warnings.push(`${where}: seoTitle is ${p.seoTitle.length} characters; Google may cut it off after about 60.`);
     if (p.seoDescription && p.seoDescription.length > 170) warnings.push(`${where}: seoDescription is ${p.seoDescription.length} characters; Google may cut it off after about 155.`);
     if (p.imageAlt && p.imageAlt.length > 160) warnings.push(`${where}: imageAlt is very long (${p.imageAlt.length} characters).`);
